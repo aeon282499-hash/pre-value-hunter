@@ -252,6 +252,12 @@
     .source-rakuten_dummy { background: #1c1917; color: #a8a29e; }
     .source-official { background: #0c4a6e; color: #7dd3fc; }
     .source-official_dummy { background: #1c1917; color: #a8a29e; }
+    .source-official_manual { background: #064e3b; color: #6ee7b7; border: 1px solid #10b981; }
+    .deadline-badge {
+      font-size: 0.68rem; color: #fbbf24; background: #451a03;
+      border: 1px solid #92400e; border-radius: 6px;
+      padding: 2px 7px; margin-top: 4px; display: inline-block;
+    }
     .channel-amazon { background: #451a03; color: #fdba74; border: 1px solid #92400e; }
     .channel-mercari { background: #1a1040; color: #a78bfa; border: 1px solid #4c1d95; }
     .channel-badge {
@@ -432,8 +438,11 @@
         ? `<img src="${escHtml(item.image)}" alt="" loading="lazy">`
         : `📦`;
       const srcClass = `source-${item.source}`;
-      const srcLabel = item.source.includes('dummy') ? 'ダミー' :
+      const srcLabel = item.source === 'official_manual' ? '公式手動登録' :
+                       item.source.includes('dummy') ? 'ダミー' :
                        item.source === 'rakuten' ? '楽天' : '公式';
+      const deadlineHtml = item.deadline
+        ? `<span class="deadline-badge">締切 ${escHtml(item.deadline)}</span>` : '';
 
       const ch = item.best_channel || 'mercari';
       const chLabel = ch === 'amazon' ? '★ Amazon FBA' : '★ メルカリ';
@@ -454,6 +463,7 @@
             <span class="channel-badge ${chClass}">${chLabel}</span>
           </div>
           <div class="card-name">${escHtml(item.name)}</div>
+          ${deadlineHtml}
           <div class="card-nums">
             <div class="num-box">
               <div class="num-label">利益</div>

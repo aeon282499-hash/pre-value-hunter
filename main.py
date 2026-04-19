@@ -23,6 +23,7 @@ from analyzer.win_rate import estimate_win_rate
 from dashboard.render import render_dashboard
 from scrapers.mercari import get_mercari_price
 from scrapers.official import get_official_lotteries
+from scrapers.official_items import load_manual_items
 from scrapers.rakuten import search_rakuten
 
 
@@ -131,17 +132,26 @@ def run_pipeline(config: dict) -> list[dict]:
 
         print(f"  → 条件クリア: {len([r for r in all_results if r['category_id'] == cat['id']])} 件")
 
-    # ── 2. 公式抽選情報 ───────────────────────────────────────────
-    print("\n▶ 公式抽選情報")
-    # 公式アイテムはカテゴリIDから設定を引く
+    # ── 2. 手動登録公式アイテム (items.yaml) ─────────────────────
+    print("\n▶ 手動登録公式アイテム")
     cat_map = {c["id"]: c for c in config["categories"]}
+    for item in load_manual_items():
+        cat = cat_map.get(item.get("category_id", ""), config["categories"][0])
+        result = process_item(item, cat, config)
+        if result:
+            result["deadline"] = item.get("deadline", "")
+            result["note"] = item.get("note", "")
+            all_results.append(result)
+
+    # ── 3. 公式抽選情報 (ダミー) ──────────────────────────────────
+    print("\n▶ 公式抽選情報")
     for lot in get_official_lotteries():
         cat = cat_map.get(lot.get("category_id", ""), config["categories"][0])
         result = process_item(lot, cat, config)
         if result:
             all_results.append(result)
 
-    # ── 3. 重複排除 & ソート ──────────────────────────────────────
+    # ── 4. 重複排除 & ソート ──────────────────────────────────────
     unique: dict[str, dict] = {}
     for r in all_results:
         key = r["name"]

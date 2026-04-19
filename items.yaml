@@ -1,0 +1,21 @@
+# 公式サイトのURLを貼るだけ。name・list_priceは自動取得、書けば上書き。
+# category_id: trading_card / figure / ichiban_kuji / magazine_appendix / gadget
+# deadline: 受注・応募締切日（任意）
+
+items:
+  - url: https://p-bandai.jp/item/item-1000191234/
+    category_id: figure
+    # name: 自動取得
+    # list_price: 自動取得
+    deadline: ""
+    note: ""
+
+  # 追加例：
+  # - url: https://p-bandai.jp/item/item-1000XXXXX/
+  #   category_id: figure
+  #   deadline: "2026-05-10"
+  #   note: "抽選受注"
+  #
+  # - url: https://pokemoncenter-online.com/product/XXX/
+  #   category_id: trading_card
+  #   list_price: 4400
