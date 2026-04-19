@@ -21,9 +21,10 @@ import yaml
 from analyzer.profit import calculate_profit, calculate_amazon_profit, best_channel, calculate_expected_value
 from analyzer.win_rate import estimate_win_rate
 from dashboard.render import render_dashboard
+from scrapers.auto_discover import discover_all, save_auto_items
 from scrapers.mercari import get_mercari_price
 from scrapers.official import get_official_lotteries
-from scrapers.official_items import load_manual_items
+from scrapers.official_items import load_auto_items, load_manual_items
 from scrapers.rakuten import search_rakuten
 
 
@@ -113,6 +114,11 @@ def run_pipeline(config: dict) -> list[dict]:
 
     all_results: list[dict] = []
 
+    # ── 0. 公式サイト自動発掘 ─────────────────────────────────────
+    print("\n▶ 自動発掘パイプライン開始")
+    auto_discovered = discover_all()
+    save_auto_items(auto_discovered)
+
     # ── 1. Rakuten 検索 ────────────────────────────────────────────
     for cat in config["categories"]:
         print(f"\n▶ カテゴリ: {cat['name']}")
@@ -132,7 +138,7 @@ def run_pipeline(config: dict) -> list[dict]:
 
         print(f"  → 条件クリア: {len([r for r in all_results if r['category_id'] == cat['id']])} 件")
 
-    # ── 2. 手動登録公式アイテム (items.yaml) ─────────────────────
+    # ── 2. 公式アイテム (手動 + 自動発掘) ───────────────────────────
     print("\n▶ 手動登録公式アイテム")
     cat_map = {c["id"]: c for c in config["categories"]}
     for item in load_manual_items():
@@ -141,6 +147,16 @@ def run_pipeline(config: dict) -> list[dict]:
         if result:
             result["deadline"] = item.get("deadline", "")
             result["note"] = item.get("note", "")
+            all_results.append(result)
+
+    print("\n▶ 自動発掘アイテム (auto_items.yaml)")
+    for item in load_auto_items():
+        cat = cat_map.get(item.get("category_id", ""), config["categories"][0])
+        result = process_item(item, cat, config)
+        if result:
+            result["deadline"] = item.get("deadline", "")
+            result["note"] = item.get("note", "")
+            result["sale_start"] = item.get("sale_start", "")
             all_results.append(result)
 
     # ── 3. 公式抽選情報 (ダミー) ──────────────────────────────────

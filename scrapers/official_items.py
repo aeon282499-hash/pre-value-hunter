@@ -134,6 +134,39 @@ def fetch_official_item(entry: dict) -> dict | None:
     }
 
 
+def load_auto_items(path: str = "auto_items.yaml") -> list[dict]:
+    """auto_discover.py が生成した auto_items.yaml を読み込む"""
+    import yaml
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+        entries = data.get("items", []) if data else []
+        results = []
+        for entry in entries:
+            if not entry.get("url"):
+                continue
+            item = {
+                "name": entry.get("name", entry["url"]),
+                "list_price": int(entry.get("list_price", 0)),
+                "url": entry["url"],
+                "image": "",
+                "shop": "公式サイト",
+                "review_count": 0,
+                "is_limited_first_come": True,
+                "entry_windows": 1,
+                "source": entry.get("source", "auto_discover"),
+                "category_id": entry.get("category_id", "figure"),
+                "sale_start": entry.get("sale_start", ""),
+                "deadline": entry.get("deadline", ""),
+                "note": entry.get("note", ""),
+            }
+            if item["list_price"] > 0 and item["name"]:
+                results.append(item)
+        return results
+    except FileNotFoundError:
+        return []
+
+
 def load_manual_items(path: str = "items.yaml") -> list[dict]:
     import yaml
     try:
