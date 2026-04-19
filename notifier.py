@@ -72,7 +72,7 @@ def check_and_notify(webhook_url: str) -> None:
             f"💴 定価: ¥{price}\n"
         )
         msg = "\n".join([
-            f"🚨 **{mins}分後に販売開始！今すぐ準備を！**",
+            f"@everyone 🚨 **{mins}分後に販売開始！今すぐ準備を！**",
             "━━━━━━━━━━━━━━━━━━",
             f"**{name}**",
             f"💴 定価: ¥{price:,}" if isinstance(price, int) else f"💴 定価: ¥{price}",
