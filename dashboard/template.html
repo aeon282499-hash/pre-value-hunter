@@ -365,7 +365,7 @@
 </footer>
 
 <script>
-  const ALL_ITEMS = {{ items_json }};
+  const ALL_ITEMS = {{ items_json | safe }};
   let currentTab = 'all';
 
   function switchTab(tabId, btn) {
