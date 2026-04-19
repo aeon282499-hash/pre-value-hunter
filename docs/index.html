@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プレ値ハンター | 毎日自動リサーチ</title>
+  <style>
+    :root {
+      --bg: #0d0d12;
+      --surface: #16161f;
+      --surface2: #1e1e2e;
+      --border: #2a2a3d;
+      --accent: #7c3aed;
+      --accent-dim: #4c1d95;
+      --green: #10b981;
+      --green-dim: #064e3b;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --text-muted: #475569;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a0533 0%, #0d0d12 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 16px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #a78bfa, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo span { -webkit-text-fill-color: var(--green); }
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .stat-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+    .stat-chip strong { color: var(--text); }
+    .ev-total {
+      background: linear-gradient(135deg, var(--accent-dim), #1e0748);
+      border: 1px solid var(--accent);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #c4b5fd;
+    }
+    .updated {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      width: 100%;
+      text-align: right;
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      max-width: 960px;
+      margin: 16px auto 0;
+      padding: 0 16px;
+    }
+    .search-wrap input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+
+    /* ── Tabs ── */
+    .tabs-wrap {
+      max-width: 960px;
+      margin: 16px auto 0;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-wrap::-webkit-scrollbar { display: none; }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      width: max-content;
+    }
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 0.82rem;
+      padding: 7px 16px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* ── Sort bar ── */
+    .sort-bar {
+      max-width: 960px;
+      margin: 12px auto 0;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sort-bar label { font-size: 0.78rem; color: var(--text-muted); }
+    .sort-bar select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.82rem;
+      padding: 5px 10px;
+      outline: none;
+      cursor: pointer;
+    }
+    .count-badge {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Grid ── */
+    .grid {
+      max-width: 960px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 2rem;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .card-cat {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-nums {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .num-box {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .num-label { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 3px; }
+    .num-value { font-size: 0.95rem; font-weight: 700; }
+    .num-value.profit { color: var(--green); }
+    .num-value.ev { color: #a78bfa; }
+    .num-value.rate { color: var(--yellow); }
+    .num-value.win { color: var(--text-dim); }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .source-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .source-rakuten { background: #450a0a; color: #fca5a5; }
+    .source-rakuten_dummy { background: #1c1917; color: #a8a29e; }
+    .source-official { background: #0c4a6e; color: #7dd3fc; }
+    .source-official_dummy { background: #1c1917; color: #a8a29e; }
+    .channel-amazon { background: #451a03; color: #fdba74; border: 1px solid #92400e; }
+    .channel-mercari { background: #1a1040; color: #a78bfa; border: 1px solid #4c1d95; }
+    .channel-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; font-weight: 700;
+    }
+    .profit-compare {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;
+    }
+    .profit-compare .best { color: var(--green); font-weight: 700; }
+
+    /* EV bar */
+    .ev-bar-wrap { background: var(--surface2); border-radius: 99px; height: 4px; overflow: hidden; }
+    .ev-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 99px; transition: width 0.6s ease; }
+
+    /* CTA */
+    .card-footer { padding: 0 14px 14px; }
+    .btn-apply {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), #5b21b6);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 11px;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn-apply:hover { opacity: 0.85; transform: scale(0.99); }
+    .btn-apply:active { transform: scale(0.96); }
+
+    /* ── Empty ── */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: none;
+    }
+    .empty.show { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 960px;
+      margin: 40px auto 0;
+      padding: 0 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      line-height: 1.8;
+    }
+    footer a { color: var(--text-dim); }
+
+    @media (max-width: 480px) {
+      .header-inner { gap: 6px; }
+      .logo { font-size: 1.1rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">プレ値<span>ハンター</span></div>
+    <div class="stats-bar">
+      <div class="stat-chip">全 <strong>35</strong> 件</div>
+      <div class="ev-total">期待値合計 ¥22,884</div>
+    </div>
+    <div class="updated">更新: 2026-04-19 01:24</div>
+  </div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="商品名で絞り込み..." oninput="filterCards()">
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('all', this)">すべて</button>
+    
+    <button class="tab-btn" onclick="switchTab('trading_card', this)">トレカ</button>
+    
+    <button class="tab-btn" onclick="switchTab('magazine_appendix', this)">雑誌付録</button>
+    
+    <button class="tab-btn" onclick="switchTab('ichiban_kuji', this)">一番くじ・食玩</button>
+    
+    <button class="tab-btn" onclick="switchTab('figure', this)">フィギュア</button>
+    
+    <button class="tab-btn" onclick="switchTab('gadget', this)">小物ガジェット</button>
+    
+  </div>
+</div>
+
+<div class="sort-bar">
+  <label>並び替え</label>
+  <select id="sortSelect" onchange="renderGrid()">
+    <option value="ev">期待値（高い順）</option>
+    <option value="profit">利益（高い順）</option>
+    <option value="rate">利益率（高い順）</option>
+    <option value="win">当選確率（高い順）</option>
+  </select>
+  <span class="count-badge" id="countBadge"></span>
+</div>
+
+<div class="grid" id="cardGrid"></div>
+<div class="empty" id="emptyMsg">条件に合う商品が見つかりませんでした</div>
+
+<footer>
+  <p>⚠️ <strong>このシステムはリサーチ支援ツールです。</strong>最後の応募・購入ボタンは必ずご自身で押してください。自動応募・CAPTCHA回避は一切実装していません。</p>
+  <p>利益額はメルカリ推定相場・Amazon FBA手数料（参照料+FBA費）を考慮した概算です。Amazon NB商品は出品規制がある場合があります。実際の利益を保証するものではありません。</p>
+  <p>各プラットフォームの利用規約を遵守してご利用ください。 | <a href="data/latest.json">JSON</a></p>
+</footer>
+
+<script>
+  const ALL_ITEMS = [{&#34;name&#34;: &#34;【プレバン】機動戦士ガンダム METAL ROBOT魂 νガンダム (Ka signature) 限定版&#34;, &#34;category&#34;: &#34;フィギュア&#34;, &#34;category_id&#34;: &#34;figure&#34;, &#34;list_price&#34;: 22000, &#34;mercari_price&#34;: 42000, &#34;profit&#34;: 15590, &#34;profit_rate&#34;: 70.9, &#34;mercari_profit&#34;: 15590, &#34;amazon_profit&#34;: 15450, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 15.0, &#34;expected_value&#34;: 2338, &#34;url&#34;: &#34;https://p-bandai.jp/&#34;, &#34;image&#34;: &#34;&#34;, &#34;shop&#34;: &#34;プレミアムバンダイ&#34;, &#34;source&#34;: &#34;official_dummy&#34;}, {&#34;name&#34;: &#34;一番くじ 初音ミク ブランドコラボレーション MIKU wears MILK　ラストワン賞　ブックレット　バンプレスト　新品&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 21450, &#34;mercari_price&#34;: 42250, &#34;profit&#34;: 16365, &#34;profit_rate&#34;: 76.3, &#34;mercari_profit&#34;: 16365, &#34;amazon_profit&#34;: 16225, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 1964, &#34;url&#34;: &#34;https://item.rakuten.co.jp/clothoid/20160924-89/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;&#34;, &#34;shop&#34;: &#34;クロソイド屋 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【限定版】ONE PIECEカードゲーム スタートデッキ ストレージボックスセット&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 23700, &#34;mercari_price&#34;: 36350, &#34;profit&#34;: 8805, &#34;profit_rate&#34;: 37.2, &#34;mercari_profit&#34;: 8805, &#34;amazon_profit&#34;: 8665, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 1761, &#34;url&#34;: &#34;https://item.rakuten.co.jp/lien0305/2670-002493/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/lien0305/cabinet/amayahoo/07783007/2670-002493.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;TOWA&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【GSC】ねんどろいど ブルーアーカイブ アリス 限定版&#34;, &#34;category&#34;: &#34;フィギュア&#34;, &#34;category_id&#34;: &#34;figure&#34;, &#34;list_price&#34;: 9900, &#34;mercari_price&#34;: 22000, &#34;profit&#34;: 9690, &#34;profit_rate&#34;: 97.9, &#34;mercari_profit&#34;: 9690, &#34;amazon_profit&#34;: 9550, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 16.0, &#34;expected_value&#34;: 1554, &#34;url&#34;: &#34;https://www.goodsmile.info/&#34;, &#34;image&#34;: &#34;&#34;, &#34;shop&#34;: &#34;グッドスマイルオンラインショップ&#34;, &#34;source&#34;: &#34;official_dummy&#34;}, {&#34;name&#34;: &#34;【未開封】一番くじ ダンダダン ～圧倒的怪奇、強襲！ ラストワン賞 ジジ（変身) フィギュア&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 18800, &#34;mercari_price&#34;: 33400, &#34;profit&#34;: 11050, &#34;profit_rate&#34;: 58.8, &#34;mercari_profit&#34;: 11050, &#34;amazon_profit&#34;: 10910, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 1300, &#34;url&#34;: &#34;https://item.rakuten.co.jp/nakanolife/ichibandandadanlast/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/nakanolife/cabinet/04369331/imgrc0099402308.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;なかのふぁくとりー 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;コンゴウ団SPセット ジム限定　ポケモンカード ソード&amp;シールド&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 14300, &#34;mercari_price&#34;: 23000, &#34;profit&#34;: 6190, &#34;profit_rate&#34;: 43.3, &#34;mercari_profit&#34;: 6190, &#34;amazon_profit&#34;: 6050, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 1238, &#34;url&#34;: &#34;https://item.rakuten.co.jp/multipleshop/c4521329344867/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/multipleshop/cabinet/image6/c4521329344867_1.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;MULTIPLE SHOP&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM23-RP1 アビス・レボリューション第1弾 双竜戦記 30パック入BOX 2個セット&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 11389, &#34;mercari_price&#34;: 19000, &#34;profit&#34;: 5501, &#34;profit_rate&#34;: 48.3, &#34;mercari_profit&#34;: 5501, &#34;amazon_profit&#34;: 5361, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 1100, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758973902-2-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10667121/1758973902-2-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;遊戯王 デュエル セット ラーの翼神竜 QUARTER CENTURY クォーターセンチュリーシークレット カードゲーム Loppi・HMV限定 未開封 即納 (BB)&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 12980, &#34;mercari_price&#34;: 20600, &#34;profit&#34;: 5350, &#34;profit_rate&#34;: 41.2, &#34;mercari_profit&#34;: 5350, &#34;amazon_profit&#34;: 5210, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 1070, &#34;url&#34;: &#34;https://item.rakuten.co.jp/kyoshin-m/0687-009575/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/kyoshin-m/cabinet/amayahoo/06924935/0687-009575.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;ECあるふぁ 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM25-RP4 王道W第4弾 終淵 LOVE&amp;ABYSS 30パック入BOX 2個セット&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 10756, &#34;mercari_price&#34;: 17250, &#34;profit&#34;: 4559, &#34;profit_rate&#34;: 42.4, &#34;mercari_profit&#34;: 4559, &#34;amazon_profit&#34;: 4419, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 912, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758978160-2-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10667123/1758978160-2-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM25-EX2 王道vs邪道 デュエキングWDreaM 2025 10パック入BOX 2個セット&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 10023, &#34;mercari_price&#34;: 15800, &#34;profit&#34;: 3987, &#34;profit_rate&#34;: 39.8, &#34;mercari_profit&#34;: 3987, &#34;amazon_profit&#34;: 3847, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 797, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758976694-2-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10667122/1758976694-2-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;ポケモンカード ハイクラスパック MEGAドリームex ポケカ 10パック 15パック ばら売り 全国送料無料&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 7600, &#34;mercari_price&#34;: 13550, &#34;profit&#34;: 4385, &#34;profit_rate&#34;: 57.7, &#34;mercari_profit&#34;: 4385, &#34;amazon_profit&#34;: 4245, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 16.2, &#34;expected_value&#34;: 712, &#34;url&#34;: &#34;https://item.rakuten.co.jp/bansyuselect/mega1556/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/bansyuselect/cabinet/09256555/10620272/imgrc0127638128.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;播州セレクト&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【 ポイント3倍キャンペーン中！】ハイクラスパック福袋　ハイクラス5パック確定 ＋ SSR or SAR ポケモンカード1枚封入確定！&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 9480, &#34;mercari_price&#34;: 15850, &#34;profit&#34;: 4575, &#34;profit_rate&#34;: 48.3, &#34;mercari_profit&#34;: 4575, &#34;amazon_profit&#34;: 4435, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 15.1, &#34;expected_value&#34;: 692, &#34;url&#34;: &#34;https://item.rakuten.co.jp/hobbypunkcs/hp00004400/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/hobbypunkcs/cabinet/10235560/10461396/imgrc0094743970.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;キリオス “わ” ごころSHOP&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM24-RP3 王道篇第3弾 ゴールド・オブ・ハイパーエンジェル 30パック入BOX (DP-BOX) 2個セット&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 9561, &#34;mercari_price&#34;: 14150, &#34;profit&#34;: 2964, &#34;profit_rate&#34;: 31.0, &#34;mercari_profit&#34;: 2964, &#34;amazon_profit&#34;: 2824, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 593, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758973960-2-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10667121/1758973960-2-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;ONE PIECEカードゲーム 【限定収録】【パラレル】ST10-013 ユースタス・キッド SR【プレミアムブースター ONE PIECE CARD THE BEST ストレージボックスセット】&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 6880, &#34;mercari_price&#34;: 10950, &#34;profit&#34;: 2765, &#34;profit_rate&#34;: 40.2, &#34;mercari_profit&#34;: 2765, &#34;amazon_profit&#34;: 2625, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 553, &#34;url&#34;: &#34;https://item.rakuten.co.jp/fullahead/opc-gss-022/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/fullahead/cabinet/02950370/02950380/02979780/opc-gss-022.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;フルアヘッド&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【新品】1週間以内発送　【限定 A4クリアファイル付】【初回限定特典 「死者蘇生」プリズマティックシークレットレア仕様】『遊☆戯☆王デュエルモンスターズ ミレニアムシーンズ』 Blu-ray ブルーレイ ゆうぎおう 遊戯王 週刊少年ジャンプ カード デッキ アニメ&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 9953, &#34;mercari_price&#34;: 14250, &#34;profit&#34;: 2662, &#34;profit_rate&#34;: 26.7, &#34;mercari_profit&#34;: 2662, &#34;amazon_profit&#34;: 2522, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 532, &#34;url&#34;: &#34;https://item.rakuten.co.jp/speedwagon/10005972/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/speedwagon/cabinet/other/bludneugytyuu1.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;SPW楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;サンエックス リラックマ一番くじ森のリラックマA賞ローソン限定【未使用】ぬいぐるみ&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 6600, &#34;mercari_price&#34;: 12550, &#34;profit&#34;: 4485, &#34;profit_rate&#34;: 68.0, &#34;mercari_profit&#34;: 4485, &#34;amazon_profit&#34;: 4345, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 528, &#34;url&#34;: &#34;https://item.rakuten.co.jp/tamateya/10004018/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/tamateya/cabinet/bazar/01757378/img57079732.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;あきんどざむらい&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【未開封】一番くじ 鬼滅の刃 ～雷の兄弟～ ラストワン賞 狛治 猗窩座 あかざ フィギュア&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 10000, &#34;mercari_price&#34;: 16200, &#34;profit&#34;: 4370, &#34;profit_rate&#34;: 43.7, &#34;mercari_profit&#34;: 4370, &#34;amazon_profit&#34;: 4230, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 514, &#34;url&#34;: &#34;https://item.rakuten.co.jp/nakanolife/ichibankaminarilast/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/nakanolife/cabinet/04369331/imgrc0099211700.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;なかのふぁくとりー 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM23-RP1 アビス・レボリューション第1弾 双竜戦記 30パック入BOX&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 5717, &#34;mercari_price&#34;: 9400, &#34;profit&#34;: 2533, &#34;profit_rate&#34;: 44.3, &#34;mercari_profit&#34;: 2533, &#34;amazon_profit&#34;: 2393, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 507, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758973902-1-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10604979/1758973902-1-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【4/20（月）限定！全品ポイント＋4倍！】DM24-EX4 デュエル・マスターズTCG にじさんじコラボ・マスターズ「異次元の超獣使い」 DP-BOXおもちゃ こども 子供 10歳 デュエルマスターズ&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 4048, &#34;mercari_price&#34;: 7050, &#34;profit&#34;: 2087, &#34;profit_rate&#34;: 51.6, &#34;mercari_profit&#34;: 2087, &#34;amazon_profit&#34;: 1947, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 417, &#34;url&#34;: &#34;https://item.rakuten.co.jp/es-toys/10997625/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/es-toys/cabinet/625/10997625.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;ハピネット・オンライン&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;一番くじ ポケットモンスター メガシンカ ポケモン A賞 B賞 C賞 D賞 ラストワン ぬいぐるみ ピカチュウ リザードン サーナイト ゲンガー ルカリオ 約21センチ 大きい ぬいぐるみ ポケモン&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 6980, &#34;mercari_price&#34;: 11800, &#34;profit&#34;: 3430, &#34;profit_rate&#34;: 49.1, &#34;mercari_profit&#34;: 3430, &#34;amazon_profit&#34;: 3290, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 404, &#34;url&#34;: &#34;https://item.rakuten.co.jp/shizuya/21450/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/shizuya/cabinet/imgrc0110428946.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;静屋(ネット通販事業部)&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【即納】ポケモンカード ハイクラスパック テラスタルフェスex ばら売り ポケカ 5パック～10パック カードゲーム 全国送料無料 BOX トレカ ポケモン 全国送料無料　・テラスタルフェス&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 5100, &#34;mercari_price&#34;: 8600, &#34;profit&#34;: 2430, &#34;profit_rate&#34;: 47.6, &#34;mercari_profit&#34;: 2430, &#34;amazon_profit&#34;: 2290, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 14.4, &#34;expected_value&#34;: 349, &#34;url&#34;: &#34;https://item.rakuten.co.jp/bansyuselect/terasu2920/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/bansyuselect/cabinet/09256555/10620272/imgrc0120966175.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;播州セレクト&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【期間限定ポイント5倍】ホゴダス マグネットローダー ストレージBOX ストレージボックス トレーディングカード 収納 ボックス ケース 35pt 最大90枚収納 デッキケース トレカケース PUレザー製 大容量 ポケモンカード ポケカ 遊戯王 ワンピースカード MTG&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 3980, &#34;mercari_price&#34;: 7000, &#34;profit&#34;: 2110, &#34;profit_rate&#34;: 53.0, &#34;mercari_profit&#34;: 2110, &#34;amazon_profit&#34;: 1970, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 16.0, &#34;expected_value&#34;: 338, &#34;url&#34;: &#34;https://item.rakuten.co.jp/ukachi/tcg-box01/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/ukachi/cabinet/01/tcg-box01_1.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カーパーツ KATSUNOKI国際&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【4/20（月）限定！全品ポイント＋4倍！】バンダイ(BANDAI) ドラゴンクエストVII Reimagined ラバマスARTグミアート (12個入) (BOX)おもちゃ こども 子供 食玩&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 3800, &#34;mercari_price&#34;: 7500, &#34;profit&#34;: 2740, &#34;profit_rate&#34;: 72.1, &#34;mercari_profit&#34;: 2740, &#34;amazon_profit&#34;: 2600, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 329, &#34;url&#34;: &#34;https://item.rakuten.co.jp/es-toys/11019177/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/es-toys/cabinet/177/11019177.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;ハピネット・オンライン&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;ONE PIECEカードゲーム 【限定収録】ST01-007 ナミ C【プレミアムブースター ONE PIECE CARD THE BEST ストレージボックスセット】&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 5080, &#34;mercari_price&#34;: 7650, &#34;profit&#34;: 1595, &#34;profit_rate&#34;: 31.4, &#34;mercari_profit&#34;: 1595, &#34;amazon_profit&#34;: 1455, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 319, &#34;url&#34;: &#34;https://item.rakuten.co.jp/fullahead/opc-gss-014/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/fullahead/cabinet/02950370/02950380/02979780/opc-gss-014.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;フルアヘッド&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;五等分の花嫁 クリアカードコレクションガム 初回限定版 16パック入りBOX (食玩)&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 3793, &#34;mercari_price&#34;: 7100, &#34;profit&#34;: 2387, &#34;profit_rate&#34;: 62.9, &#34;mercari_profit&#34;: 2387, &#34;amazon_profit&#34;: 2247, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 286, &#34;url&#34;: &#34;https://item.rakuten.co.jp/c-lanlan/4970381806972/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/c-lanlan/cabinet/11550499/4970381806972.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;らんらん おもちゃ お祭り 景品&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【プレバン】一番くじ ドラゴンボール超 ブロリー A賞 フィギュア&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 880, &#34;mercari_price&#34;: 3800, &#34;profit&#34;: 2330, &#34;profit_rate&#34;: 264.8, &#34;mercari_profit&#34;: 2330, &#34;amazon_profit&#34;: 2190, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 280, &#34;url&#34;: &#34;https://p-bandai.jp/&#34;, &#34;image&#34;: &#34;&#34;, &#34;shop&#34;: &#34;プレミアムバンダイ&#34;, &#34;source&#34;: &#34;official_dummy&#34;}, {&#34;name&#34;: &#34;【あみあみ限定特典】NG騎士ラムネ＆40 トレーディング缶バッジ 「守護騎士メタルコイン」 8個入りBOX[クロノア]《発売済・在庫品》&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 5280, &#34;mercari_price&#34;: 8500, &#34;profit&#34;: 2160, &#34;profit_rate&#34;: 40.9, &#34;mercari_profit&#34;: 2160, &#34;amazon_profit&#34;: 2020, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 259, &#34;url&#34;: &#34;https://item.rakuten.co.jp/amiami/goods-04733475/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/amiami/cabinet/pb/2025/512/goods-04733475.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;あみあみ 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【送料無料！（地域限定）】デュエル・マスターズTCG DM24-RP3 王道篇第3弾 ゴールド・オブ・ハイパーエンジェル 30パック入BOX (DP-BOX)&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 5036, &#34;mercari_price&#34;: 7150, &#34;profit&#34;: 1189, &#34;profit_rate&#34;: 23.6, &#34;mercari_profit&#34;: 1189, &#34;amazon_profit&#34;: 1049, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 238, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sinca-ism/1758973960-1-a/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sinca-ism/cabinet/10604979/1758973960-1-a.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;カマクラストアー&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【あみあみ限定特典】「魔道祖師」日本語版ラジオドラマ トレーディング Botania 缶バッジ 8個入りBOX[アルマビアンカ]《07月予約》&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 3160, &#34;mercari_price&#34;: 5800, &#34;profit&#34;: 1850, &#34;profit_rate&#34;: 58.5, &#34;mercari_profit&#34;: 1850, &#34;amazon_profit&#34;: 1710, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 222, &#34;url&#34;: &#34;https://item.rakuten.co.jp/amiami/goods-04782090/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/amiami/cabinet/pb/2026/142/goods-04782090.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;あみあみ 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;初回限定特典付き リーメント ぷちサンプルシリーズ Petit Crepe ぷち クレープ クレープ屋さん わんちゃんクレープ&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 4140, &#34;mercari_price&#34;: 6700, &#34;profit&#34;: 1680, &#34;profit_rate&#34;: 40.6, &#34;mercari_profit&#34;: 1680, &#34;amazon_profit&#34;: 1540, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 198, &#34;url&#34;: &#34;https://item.rakuten.co.jp/hrco-r/petit-crepe/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/hrco-r/cabinet/shouhin/08324958/petit-crepe.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;HRCO&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【当店限定★週末P3倍】 タカラトミー DM24-EX4 デュエル・マスターズTCG にじさんじコラボ・マスターズ「異次元の超獣使い」 BOX シュリンク 付トレカ 新品 未開封 4904810932536 ギフト ラッピング対応【RSL】&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 4240, &#34;mercari_price&#34;: 5900, &#34;profit&#34;: 860, &#34;profit_rate&#34;: 20.3, &#34;mercari_profit&#34;: 860, &#34;amazon_profit&#34;: 720, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 20.0, &#34;expected_value&#34;: 172, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sepply/4904810932536/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sepply/cabinet/image8/4904810932536_1.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;セプライ 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【即納】ポケモンカードゲーム パック スカーレット＆バイオレット ハイクラスパック テラスタルフェスex ばら売り ポケカ 5パック～15パック カードゲーム　全国送料無料・テラスタルフェス&#34;, &#34;category&#34;: &#34;トレカ&#34;, &#34;category_id&#34;: &#34;trading_card&#34;, &#34;list_price&#34;: 5100, &#34;mercari_price&#34;: 7850, &#34;profit&#34;: 1755, &#34;profit_rate&#34;: 34.4, &#34;mercari_profit&#34;: 1755, &#34;amazon_profit&#34;: 1615, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 7.4, &#34;expected_value&#34;: 130, &#34;url&#34;: &#34;https://item.rakuten.co.jp/bansyuselect/terasutaru929/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/bansyuselect/cabinet/09256555/10620272/imgrc0123053424.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;播州セレクト&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;アニメ「SAKAMOTO DAYS」 クリアカードコレクションガム 初回限定版 16パック入りBOX (食玩)&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 3300, &#34;mercari_price&#34;: 4850, &#34;profit&#34;: 855, &#34;profit_rate&#34;: 25.9, &#34;mercari_profit&#34;: 855, &#34;amazon_profit&#34;: 715, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 11.8, &#34;expected_value&#34;: 101, &#34;url&#34;: &#34;https://item.rakuten.co.jp/sanyodo-shop/4970381807047/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/sanyodo-shop/cabinet/image57/4970381807047_1.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;おもちゃの三洋堂&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;【4/20（月）限定！全品ポイント＋4倍！】バンダイ(BANDAI) プロジェクトセカイ カラフルステージ！ feat. 初音ミク ウエハース11(20個入)(BOX)おもちゃ こども 子供 食玩&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 3410, &#34;mercari_price&#34;: 4850, &#34;profit&#34;: 745, &#34;profit_rate&#34;: 21.8, &#34;mercari_profit&#34;: 745, &#34;amazon_profit&#34;: 605, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 89, &#34;url&#34;: &#34;https://item.rakuten.co.jp/es-toys/11014346/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/es-toys/cabinet/346/11014346.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;ハピネット・オンライン&#34;, &#34;source&#34;: &#34;rakuten&#34;}, {&#34;name&#34;: &#34;ディズニー ツイステッドワンダーランド ザ アニメーション クリアカードコレクションガム (初回限定版) 食玩 エンスカイ (1BOX) （ZT161953）&#34;, &#34;category&#34;: &#34;一番くじ・食玩&#34;, &#34;category_id&#34;: &#34;ichiban_kuji&#34;, &#34;list_price&#34;: 2880, &#34;mercari_price&#34;: 4250, &#34;profit&#34;: 735, &#34;profit_rate&#34;: 25.5, &#34;mercari_profit&#34;: 735, &#34;amazon_profit&#34;: 595, &#34;best_channel&#34;: &#34;mercari&#34;, &#34;win_rate&#34;: 12.0, &#34;expected_value&#34;: 88, &#34;url&#34;: &#34;https://item.rakuten.co.jp/digitamin/yt161953/?rafcid=wsc_i_is_846f0a02-b62d-414d-8b9e-6eb43b5d4acb&#34;, &#34;image&#34;: &#34;https://thumbnail.image.rakuten.co.jp/@0_mall/digitamin/cabinet/162000/yt161953.jpg?_ex=128x128&#34;, &#34;shop&#34;: &#34;でじたみん 楽天市場店&#34;, &#34;source&#34;: &#34;rakuten&#34;}];
+  let currentTab = 'all';
+
+  function switchTab(tabId, btn) {
+    currentTab = tabId;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
+    renderGrid();
+  }
+
+  function filterCards() { renderGrid(); }
+
+  function renderGrid() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const sortKey = document.getElementById('sortSelect').value;
+
+    let items = ALL_ITEMS.filter(item => {
+      const matchTab = currentTab === 'all' || item.category_id === currentTab;
+      const matchSearch = !query || item.name.toLowerCase().includes(query);
+      return matchTab && matchSearch;
+    });
+
+    const sortFn = {
+      ev:     (a, b) => b.expected_value - a.expected_value,
+      profit: (a, b) => b.profit - a.profit,
+      rate:   (a, b) => b.profit_rate - a.profit_rate,
+      win:    (a, b) => b.win_rate - a.win_rate,
+    }[sortKey] || ((a, b) => b.expected_value - a.expected_value);
+
+    items.sort(sortFn);
+
+    const maxEV = items.length > 0 ? items[0].expected_value : 1;
+
+    const grid = document.getElementById('cardGrid');
+    const empty = document.getElementById('emptyMsg');
+    document.getElementById('countBadge').textContent = `${items.length} 件表示`;
+
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      empty.classList.add('show');
+      return;
+    }
+    empty.classList.remove('show');
+
+    grid.innerHTML = items.map(item => {
+      const evPct = Math.min(100, (item.expected_value / maxEV) * 100).toFixed(1);
+      const imgHtml = item.image
+        ? `<img src="${escHtml(item.image)}" alt="" loading="lazy">`
+        : `📦`;
+      const srcClass = `source-${item.source}`;
+      const srcLabel = item.source.includes('dummy') ? 'ダミー' :
+                       item.source === 'rakuten' ? '楽天' : '公式';
+
+      const ch = item.best_channel || 'mercari';
+      const chLabel = ch === 'amazon' ? '★ Amazon FBA' : '★ メルカリ';
+      const chClass = ch === 'amazon' ? 'channel-amazon' : 'channel-mercari';
+
+      const amzProfit = item.amazon_profit ?? 0;
+      const merProfit = item.mercari_profit ?? 0;
+      const amzClass = ch === 'amazon' ? 'best' : '';
+      const merClass = ch === 'mercari' ? 'best' : '';
+
+      return `
+      <div class="card" data-name="${escHtml(item.name.toLowerCase())}">
+        <div class="card-img">${imgHtml}</div>
+        <div class="card-body">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span class="card-cat">${escHtml(item.category)}</span>
+            <span class="source-badge ${srcClass}">${srcLabel}</span>
+            <span class="channel-badge ${chClass}">${chLabel}</span>
+          </div>
+          <div class="card-name">${escHtml(item.name)}</div>
+          <div class="card-nums">
+            <div class="num-box">
+              <div class="num-label">利益</div>
+              <div class="num-value profit">¥${item.profit.toLocaleString()}</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">期待値</div>
+              <div class="num-value ev">¥${item.expected_value.toLocaleString()}</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">利益率</div>
+              <div class="num-value rate">${item.profit_rate}%</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">当選確率</div>
+              <div class="num-value win">${item.win_rate}%</div>
+            </div>
+          </div>
+          <div class="profit-compare">
+            <span class="${amzClass}">Amazon ¥${amzProfit.toLocaleString()}</span>
+            <span class="${merClass}">メルカリ ¥${merProfit.toLocaleString()}</span>
+          </div>
+          <div class="ev-bar-wrap"><div class="ev-bar" style="width:${evPct}%"></div></div>
+          <div class="price-row">
+            <span>定価 ¥${item.list_price.toLocaleString()}</span>
+            <span>メルカリ相場 ¥${item.mercari_price.toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a class="btn-apply" href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+            応募・購入ページへ →
+          </a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  renderGrid();
+</script>
+</body>
+</html>
