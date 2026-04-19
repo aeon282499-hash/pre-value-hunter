@@ -3,19 +3,37 @@
 # deadline: 受注・応募締切日（任意）
 
 items:
-  - url: https://p-bandai.jp/item/item-1000191234/
-    category_id: figure
-    # name: 自動取得
-    # list_price: 自動取得
-    deadline: ""
-    note: ""
 
-  # 追加例：
+  # ── 一番くじ ────────────────────────────────────────────────────
+  # ※くじは「A賞フィギュア1個を定価相当で入手できた場合」の利益計算
+  # ラストワン賞狙いは残り枚数×750円が実際の仕入れコスト
+
+  - url: https://1kuji.com/products/mario_movie2
+    name: "一番くじ ザ・スーパーマリオギャラクシー・ムービー A賞 マリオビッグフィギュア"
+    list_price: 750
+    category_id: ichiban_kuji
+    deadline: "2026-04-24"
+    note: "4/24発売・映画公開同日・ラストワン賞はヨッシービッグクッション60cm"
+
+  - url: https://on-line.1kuji.com/Form/Product/ProductDetail.aspx?shop=0&pid=9057652&bid=IP00003006
+    name: "一番くじ 劇場版クレヨンしんちゃん vol.2 名作シネマズ ラストワン賞"
+    list_price: 780
+    category_id: ichiban_kuji
+    deadline: "2026-05-15"
+    note: "5/15 11時〜 ONLINE限定・数量限定のためプレ値になりやすい"
+
+  # ── プレミアムバンダイ ───────────────────────────────────────────
+  # ※受注締切後は定価入手不可 → メルカリで高騰しやすい
+
+  - url: https://p-bandai.jp/tamashiiweb/item-1000168694/
+    name: "S.H.Figuarts ONE PIECE×NBA Monkey D. Luffy -New York Knicks ver.-"
+    list_price: 9900
+    category_id: figure
+    deadline: "2026-05-31"
+    note: "ワンピース×NBA コラボ プレバン限定・2026年12月発送予定"
+
+  # ── 追加テンプレート ─────────────────────────────────────────────
   # - url: https://p-bandai.jp/item/item-1000XXXXX/
   #   category_id: figure
-  #   deadline: "2026-05-10"
-  #   note: "抽選受注"
-  #
-  # - url: https://pokemoncenter-online.com/product/XXX/
-  #   category_id: trading_card
-  #   list_price: 4400
+  #   deadline: ""
+  #   note: ""
