@@ -6,7 +6,7 @@
       "retailer": "pokemoncenter-online.com",
       "status": "lottery",
       "price": 6000,
-      "last_checked": "2026-04-20T00:48:40.369487+09:00"
+      "last_checked": "2026-04-20T00:55:58.715190+09:00"
     },
     "https://www.pokemoncenter-online.com/4521329360997.html": {
       "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ステラミラクル180円",
@@ -14,7 +14,7 @@
       "retailer": "ポケモンセンターオンライン",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-20T00:48:42.254383+09:00"
+      "last_checked": "2026-04-20T00:58:03.455431+09:00"
     },
     "https://www.pokemoncenter-online.com/4521329362571.html": {
       "name": "ポケモンカードゲーム スカーレット＆バイオレット 強化拡張パック ナイトワンダラー180円",
@@ -22,8 +22,88 @@
       "retailer": "ポケモンセンターオンライン",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-20T00:48:42.254557+09:00"
+      "last_checked": "2026-04-20T00:58:03.455593+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0DKHHYTGJ": {
+      "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ロケット団の栄光 BOX",
+      "url": "https://www.amazon.co.jp/dp/B0DKHHYTGJ",
+      "retailer": "amazon.co.jp",
+      "status": "lottery",
+      "price": 42779,
+      "last_checked": "2026-04-20T00:56:02.381260+09:00"
+    },
+    "https://books.rakuten.co.jp/rb/18061661/": {
+      "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ロケット団の栄光　【30パック】玩具",
+      "url": "https://books.rakuten.co.jp/rb/18061661/",
+      "retailer": "books.rakuten.co.jp",
+      "status": "lottery",
+      "price": 5412,
+      "last_checked": "2026-04-20T00:56:48.038809+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0F18J2CJF": {
+      "name": "ポケモンカードゲーム MEGA 拡張パック メガブレイブ BOX",
+      "url": "https://www.amazon.co.jp/dp/B0F18J2CJF",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 7940,
+      "last_checked": "2026-04-20T00:56:53.563394+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0F189YH8W": {
+      "name": "ポケモンカードゲーム MEGA 拡張パック メガシンフォニア BOX",
+      "url": "https://www.amazon.co.jp/dp/B0F189YH8W",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 7900,
+      "last_checked": "2026-04-20T00:57:19.030586+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0FLCWJ1VK": {
+      "name": "ポケモンカードゲーム MEGA ハイクラスパック MEGAドリームex BOX",
+      "url": "https://www.amazon.co.jp/dp/B0FLCWJ1VK",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 10400,
+      "last_checked": "2026-04-20T00:57:22.756871+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0FSJXSPPX": {
+      "name": "ポケモンカードゲーム MEGA 拡張パック ムニキスゼロ BOX",
+      "url": "https://www.amazon.co.jp/dp/B0FSJXSPPX",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 5700,
+      "last_checked": "2026-04-20T00:57:26.802465+09:00"
+    },
+    "https://www.pokemoncenter-online.com/9900000007003.html": {
+      "name": "【抽選販売】ポケモンカードゲーム MEGA 拡張パック ムニキスゼロ BOX拡張パック",
+      "url": "https://www.pokemoncenter-online.com/9900000007003.html",
+      "retailer": "pokemoncenter-online.com",
+      "status": "lottery",
+      "price": 5400,
+      "last_checked": "2026-04-20T00:57:28.738249+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0G1XB2STM": {
+      "name": "ポケモンカードゲーム MEGA 拡張パック ニンジャスピナー BOX",
+      "url": "https://www.amazon.co.jp/dp/B0G1XB2STM",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 7980,
+      "last_checked": "2026-04-20T00:57:32.460720+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0F9KJGGZ5": {
+      "name": "ポケモンカードゲーム MEGA 拡張パック インフェルノX BOX",
+      "url": "https://www.amazon.co.jp/dp/B0F9KJGGZ5",
+      "retailer": "amazon.co.jp",
+      "status": "preorder",
+      "price": 5412,
+      "last_checked": "2026-04-20T00:57:35.941406+09:00"
+    },
+    "https://www.amazon.co.jp/dp/B0F18B4CVX": {
+      "name": "ポケモンカードゲーム MEGA プレミアムトレーナーボックス MEGA",
+      "url": "https://www.amazon.co.jp/dp/B0F18B4CVX",
+      "retailer": "amazon.co.jp",
+      "status": "available",
+      "price": 3429,
+      "last_checked": "2026-04-20T00:57:39.710830+09:00"
     }
   },
-  "last_updated": "2026-04-20T00:48:45.255422+09:00"
+  "last_updated": "2026-04-20T00:58:06.456920+09:00"
 }

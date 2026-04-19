@@ -1,20 +1,90 @@
-# ポケモンカードBOX 監視リスト
-# ここにURLを追加するだけで監視対象に追加されます
+# ポケモンカードBOX 監視リスト（2026-04-20更新）
+# URLを追加するだけで監視対象に追加されます
+#
+# 【動作確認済】ポケモンセンターOL / Amazon
+# 【GitHub Actions のみ可能性あり】ビックカメラ / ノジマ（ローカルIPがブロックされる）
+# 【イオン】商品URL体系が都度変わるため抽選開始時に手動追加が必要
 
 watch_products:
 
-  # ── 現在監視中 ────────────────────────────────────────────────────
+  # ══════════════════════════════════════════════════════════════════
+  # 【最重要】直近の新弾・抽選中
+  # ══════════════════════════════════════════════════════════════════
 
-  - name: ポケモンカード アビスアイ BOX
+  - name: "MEGA 拡張パック アビスアイ BOX（5/22発売・抽選4/20締切）"
+    # ポケセン抽選結果: 4/22 15時→当選者4/24まで購入
+    # ビックカメラ・ノジマ・イオン: 発売日前後に各サイトへ追加予定
     urls:
       - https://www.pokemoncenter-online.com/9900000007904.html
+      # ↓ ビックカメラURL（発売後に有効になる可能性）
+      # - https://www.biccamera.com/bc/item/XXXXXXXX/
+      # ↓ Amazon（発売前は招待制の場合あり）
+      # - https://www.amazon.co.jp/dp/BXXXXXXXXX
 
-  # ── 追加テンプレート ──────────────────────────────────────────────
-  # URLを増やすだけでOK。Amazon/楽天/ビックカメラなど複数サイトのURLを並べると全部監視します。
+  - name: "拡張パック ロケット団の栄光 BOX（4/19発売済）"
+    # ポケセン抽選は4/7-4/9で終了。再販時は下のURLが復活する場合あり
+    urls:
+      - https://www.amazon.co.jp/dp/B0DKHHYTGJ
+      - https://books.rakuten.co.jp/rb/18061661/
+      - https://www.biccamera.com/bc/item/13851682/
+      # ↓ ノジマ（シークレット販売のため商品URLは非公開・カテゴリ監視）
+      # - https://online.nojima.co.jp/category/10001025/
+
+  # ══════════════════════════════════════════════════════════════════
+  # MEGAシリーズ（Amazon公式 ASIN確認済み）
+  # ══════════════════════════════════════════════════════════════════
+
+  - name: "MEGA 拡張パック メガブレイブ BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0F18J2CJF
+
+  - name: "MEGA 拡張パック メガシンフォニア BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0F189YH8W
+
+  - name: "MEGA プレミアムトレーナーBOX MEGA"
+    urls:
+      - https://www.amazon.co.jp/dp/B0F18B4CVX
+
+  - name: "MEGA ハイクラスパック MEGAドリームex BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0FLCWJ1VK
+
+  - name: "MEGA 拡張パック ムニキスゼロ BOX（1/23発売済）"
+    urls:
+      - https://www.amazon.co.jp/dp/B0FSJXSPPX
+      - https://www.pokemoncenter-online.com/9900000007003.html
+
+  - name: "MEGA 拡張パック ニンジャスピナー BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0G1XB2STM
+
+  - name: "MEGA 拡張パック インフェルノX BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0F9KJGGZ5
+
+  # ══════════════════════════════════════════════════════════════════
+  # スカーレット&バイオレット通常弾
+  # ══════════════════════════════════════════════════════════════════
+
+  - name: "強化拡張パック ナイトワンダラー BOX"
+    urls:
+      - https://www.amazon.co.jp/dp/B0D5Y3DNHQ
+      - https://www.biccamera.com/bc/item/12938827/
+
+  - name: "デッキビルドBOX バトルパートナーズ"
+    urls:
+      - https://www.amazon.co.jp/dp/B0DTYYKH3N
+      - https://www.biccamera.com/bc/item/13744612/
+
+  # ══════════════════════════════════════════════════════════════════
+  # 追加テンプレート（新弾が発表されたらここに追加）
+  # ══════════════════════════════════════════════════════════════════
   #
-  # - name: 商品名（メモ用）
+  # - name: "商品名"
   #   urls:
-  #     - https://www.pokemoncenter-online.com/XXXXXXXXXXXXX.html
   #     - https://www.amazon.co.jp/dp/BXXXXXXXXX
+  #     - https://www.pokemoncenter-online.com/XXXXXXXXXXXXX.html
   #     - https://www.biccamera.com/bc/item/XXXXXXXX/
-  #     - https://online.nojima.co.jp/commodity/1/XXXXXXXX/
+  #     - https://online.nojima.co.jp/commodity/1/XXXXXXXXXXXXX/
+  #     - https://aeonretail.com/Product/XXXXXXXX.aspx
