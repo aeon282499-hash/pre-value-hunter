@@ -35,6 +35,17 @@ items:
     deadline: "2026-05-31"
     note: "ワンピース×NBA コラボ プレバン限定・2026年12月発送予定"
 
+  # ── ポケモンカード ──────────────────────────────────────────────
+  # ※ポケセン抽選は応募期間内に申込→当選したら購入
+
+  - url: https://www.pokemoncenter-online.com/9900000007904.html
+    name: "ポケモンカードゲーム MEGA 拡張パック アビスアイ BOX"
+    list_price: 6600
+    category_id: trading_card
+    sale_start: "2026-04-22 15:00"
+    deadline: "2026-04-20 16:59"
+    note: "⚠️抽選応募締切4/20 16:59！当選発表4/22 15時・メダークライex収録・プレ値確定級"
+
   # ── 追加テンプレート ─────────────────────────────────────────────
   # - url: https://p-bandai.jp/item/item-1000XXXXX/
   #   category_id: figure
