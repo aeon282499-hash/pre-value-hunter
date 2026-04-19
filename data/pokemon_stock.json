@@ -1,0 +1,29 @@
+{
+  "products": {
+    "https://www.pokemoncenter-online.com/9900000007904.html": {
+      "name": "【抽選販売】ポケモンカードゲーム MEGA 拡張パック アビスアイ BOX拡張パック",
+      "url": "https://www.pokemoncenter-online.com/9900000007904.html",
+      "retailer": "pokemoncenter-online.com",
+      "status": "lottery",
+      "price": 6000,
+      "last_checked": "2026-04-20T00:48:40.369487+09:00"
+    },
+    "https://www.pokemoncenter-online.com/4521329360997.html": {
+      "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ステラミラクル180円",
+      "url": "https://www.pokemoncenter-online.com/4521329360997.html",
+      "retailer": "ポケモンセンターオンライン",
+      "status": "unknown",
+      "price": null,
+      "last_checked": "2026-04-20T00:48:42.254383+09:00"
+    },
+    "https://www.pokemoncenter-online.com/4521329362571.html": {
+      "name": "ポケモンカードゲーム スカーレット＆バイオレット 強化拡張パック ナイトワンダラー180円",
+      "url": "https://www.pokemoncenter-online.com/4521329362571.html",
+      "retailer": "ポケモンセンターオンライン",
+      "status": "unknown",
+      "price": null,
+      "last_checked": "2026-04-20T00:48:42.254557+09:00"
+    }
+  },
+  "last_updated": "2026-04-20T00:48:45.255422+09:00"
+}

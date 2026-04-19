@@ -1,0 +1,20 @@
+# ポケモンカードBOX 監視リスト
+# ここにURLを追加するだけで監視対象に追加されます
+
+watch_products:
+
+  # ── 現在監視中 ────────────────────────────────────────────────────
+
+  - name: ポケモンカード アビスアイ BOX
+    urls:
+      - https://www.pokemoncenter-online.com/9900000007904.html
+
+  # ── 追加テンプレート ──────────────────────────────────────────────
+  # URLを増やすだけでOK。Amazon/楽天/ビックカメラなど複数サイトのURLを並べると全部監視します。
+  #
+  # - name: 商品名（メモ用）
+  #   urls:
+  #     - https://www.pokemoncenter-online.com/XXXXXXXXXXXXX.html
+  #     - https://www.amazon.co.jp/dp/BXXXXXXXXX
+  #     - https://www.biccamera.com/bc/item/XXXXXXXX/
+  #     - https://online.nojima.co.jp/commodity/1/XXXXXXXX/

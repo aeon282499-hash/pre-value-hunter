@@ -1,0 +1,38 @@
+name: Pokemon Card BOX Watcher
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # 10分ごと（GitHub Actionsの最小間隔は5分）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests PyYAML beautifulsoup4 lxml
+
+      - name: Run watcher
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python pokemon_watcher.py
+
+      - name: Save state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
+          git add -f data/pokemon_stock.json
+          git diff --staged --quiet || git commit -m "chore: pokemon stock state update"
+          git push
