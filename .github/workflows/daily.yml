@@ -2,13 +2,11 @@ name: Daily Research
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # JST 07:00 (UTC 22:00前日)
-  workflow_dispatch:       # 手動実行ボタン
+    - cron: '0 22 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   research:
