@@ -269,7 +269,23 @@
     .ev-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 99px; transition: width 0.6s ease; }
 
     /* CTA */
-    .card-footer { padding: 0 14px 14px; }
+    .card-footer { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+    .resale-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .btn-resale {
+      display: block;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 8px 4px;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-resale:hover { opacity: 0.8; }
+    .btn-mercari { background: #1a1040; color: #a78bfa; border: 1px solid #4c1d95; }
+    .btn-amazon { background: #451a03; color: #fdba74; border: 1px solid #92400e; }
     .btn-apply {
       display: block;
       width: 100%;
@@ -467,8 +483,16 @@
           </div>
         </div>
         <div class="card-footer">
+          <div class="resale-btns">
+            <a class="btn-resale btn-mercari" href="https://jp.mercari.com/search?keyword=${encodeURIComponent(item.name.substring(0,30))}" target="_blank" rel="noopener noreferrer">
+              メルカリで相場確認
+            </a>
+            <a class="btn-resale btn-amazon" href="https://www.amazon.co.jp/s?k=${encodeURIComponent(item.name.substring(0,30))}" target="_blank" rel="noopener noreferrer">
+              Amazonで相場確認
+            </a>
+          </div>
           <a class="btn-apply" href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">
-            応募・購入ページへ →
+            楽天で購入・応募 →
           </a>
         </div>
       </div>`;
