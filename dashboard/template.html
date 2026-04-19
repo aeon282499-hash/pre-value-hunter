@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プレ値ハンター | 毎日自動リサーチ</title>
+  <style>
+    :root {
+      --bg: #0d0d12;
+      --surface: #16161f;
+      --surface2: #1e1e2e;
+      --border: #2a2a3d;
+      --accent: #7c3aed;
+      --accent-dim: #4c1d95;
+      --green: #10b981;
+      --green-dim: #064e3b;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --text-muted: #475569;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a0533 0%, #0d0d12 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 16px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #a78bfa, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo span { -webkit-text-fill-color: var(--green); }
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .stat-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+    .stat-chip strong { color: var(--text); }
+    .ev-total {
+      background: linear-gradient(135deg, var(--accent-dim), #1e0748);
+      border: 1px solid var(--accent);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #c4b5fd;
+    }
+    .updated {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      width: 100%;
+      text-align: right;
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      max-width: 960px;
+      margin: 16px auto 0;
+      padding: 0 16px;
+    }
+    .search-wrap input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+
+    /* ── Tabs ── */
+    .tabs-wrap {
+      max-width: 960px;
+      margin: 16px auto 0;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-wrap::-webkit-scrollbar { display: none; }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      width: max-content;
+    }
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 0.82rem;
+      padding: 7px 16px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* ── Sort bar ── */
+    .sort-bar {
+      max-width: 960px;
+      margin: 12px auto 0;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sort-bar label { font-size: 0.78rem; color: var(--text-muted); }
+    .sort-bar select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.82rem;
+      padding: 5px 10px;
+      outline: none;
+      cursor: pointer;
+    }
+    .count-badge {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Grid ── */
+    .grid {
+      max-width: 960px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 2rem;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .card-cat {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-nums {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .num-box {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .num-label { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 3px; }
+    .num-value { font-size: 0.95rem; font-weight: 700; }
+    .num-value.profit { color: var(--green); }
+    .num-value.ev { color: #a78bfa; }
+    .num-value.rate { color: var(--yellow); }
+    .num-value.win { color: var(--text-dim); }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .source-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .source-rakuten { background: #450a0a; color: #fca5a5; }
+    .source-rakuten_dummy { background: #1c1917; color: #a8a29e; }
+    .source-official { background: #0c4a6e; color: #7dd3fc; }
+    .source-official_dummy { background: #1c1917; color: #a8a29e; }
+    .channel-amazon { background: #451a03; color: #fdba74; border: 1px solid #92400e; }
+    .channel-mercari { background: #1a1040; color: #a78bfa; border: 1px solid #4c1d95; }
+    .channel-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; font-weight: 700;
+    }
+    .profit-compare {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;
+    }
+    .profit-compare .best { color: var(--green); font-weight: 700; }
+
+    /* EV bar */
+    .ev-bar-wrap { background: var(--surface2); border-radius: 99px; height: 4px; overflow: hidden; }
+    .ev-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 99px; transition: width 0.6s ease; }
+
+    /* CTA */
+    .card-footer { padding: 0 14px 14px; }
+    .btn-apply {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), #5b21b6);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 11px;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn-apply:hover { opacity: 0.85; transform: scale(0.99); }
+    .btn-apply:active { transform: scale(0.96); }
+
+    /* ── Empty ── */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: none;
+    }
+    .empty.show { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 960px;
+      margin: 40px auto 0;
+      padding: 0 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      line-height: 1.8;
+    }
+    footer a { color: var(--text-dim); }
+
+    @media (max-width: 480px) {
+      .header-inner { gap: 6px; }
+      .logo { font-size: 1.1rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">プレ値<span>ハンター</span></div>
+    <div class="stats-bar">
+      <div class="stat-chip">全 <strong>{{ total_items }}</strong> 件</div>
+      <div class="ev-total">期待値合計 ¥{{ "{:,}".format(total_expected_value|int) }}</div>
+    </div>
+    <div class="updated">更新: {{ generated_at[:16].replace("T", " ") }}</div>
+  </div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="商品名で絞り込み..." oninput="filterCards()">
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('all', this)">すべて</button>
+    {% for cat in categories %}
+    <button class="tab-btn" onclick="switchTab('{{ cat.id }}', this)">{{ cat.name }}</button>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="sort-bar">
+  <label>並び替え</label>
+  <select id="sortSelect" onchange="renderGrid()">
+    <option value="ev">期待値（高い順）</option>
+    <option value="profit">利益（高い順）</option>
+    <option value="rate">利益率（高い順）</option>
+    <option value="win">当選確率（高い順）</option>
+  </select>
+  <span class="count-badge" id="countBadge"></span>
+</div>
+
+<div class="grid" id="cardGrid"></div>
+<div class="empty" id="emptyMsg">条件に合う商品が見つかりませんでした</div>
+
+<footer>
+  <p>⚠️ <strong>このシステムはリサーチ支援ツールです。</strong>最後の応募・購入ボタンは必ずご自身で押してください。自動応募・CAPTCHA回避は一切実装していません。</p>
+  <p>利益額はメルカリ推定相場・Amazon FBA手数料（参照料+FBA費）を考慮した概算です。Amazon NB商品は出品規制がある場合があります。実際の利益を保証するものではありません。</p>
+  <p>各プラットフォームの利用規約を遵守してご利用ください。 | <a href="data/latest.json">JSON</a></p>
+</footer>
+
+<script>
+  const ALL_ITEMS = {{ items_json }};
+  let currentTab = 'all';
+
+  function switchTab(tabId, btn) {
+    currentTab = tabId;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
+    renderGrid();
+  }
+
+  function filterCards() { renderGrid(); }
+
+  function renderGrid() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const sortKey = document.getElementById('sortSelect').value;
+
+    let items = ALL_ITEMS.filter(item => {
+      const matchTab = currentTab === 'all' || item.category_id === currentTab;
+      const matchSearch = !query || item.name.toLowerCase().includes(query);
+      return matchTab && matchSearch;
+    });
+
+    const sortFn = {
+      ev:     (a, b) => b.expected_value - a.expected_value,
+      profit: (a, b) => b.profit - a.profit,
+      rate:   (a, b) => b.profit_rate - a.profit_rate,
+      win:    (a, b) => b.win_rate - a.win_rate,
+    }[sortKey] || ((a, b) => b.expected_value - a.expected_value);
+
+    items.sort(sortFn);
+
+    const maxEV = items.length > 0 ? items[0].expected_value : 1;
+
+    const grid = document.getElementById('cardGrid');
+    const empty = document.getElementById('emptyMsg');
+    document.getElementById('countBadge').textContent = `${items.length} 件表示`;
+
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      empty.classList.add('show');
+      return;
+    }
+    empty.classList.remove('show');
+
+    grid.innerHTML = items.map(item => {
+      const evPct = Math.min(100, (item.expected_value / maxEV) * 100).toFixed(1);
+      const imgHtml = item.image
+        ? `<img src="${escHtml(item.image)}" alt="" loading="lazy">`
+        : `📦`;
+      const srcClass = `source-${item.source}`;
+      const srcLabel = item.source.includes('dummy') ? 'ダミー' :
+                       item.source === 'rakuten' ? '楽天' : '公式';
+
+      const ch = item.best_channel || 'mercari';
+      const chLabel = ch === 'amazon' ? '★ Amazon FBA' : '★ メルカリ';
+      const chClass = ch === 'amazon' ? 'channel-amazon' : 'channel-mercari';
+
+      const amzProfit = item.amazon_profit ?? 0;
+      const merProfit = item.mercari_profit ?? 0;
+      const amzClass = ch === 'amazon' ? 'best' : '';
+      const merClass = ch === 'mercari' ? 'best' : '';
+
+      return `
+      <div class="card" data-name="${escHtml(item.name.toLowerCase())}">
+        <div class="card-img">${imgHtml}</div>
+        <div class="card-body">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span class="card-cat">${escHtml(item.category)}</span>
+            <span class="source-badge ${srcClass}">${srcLabel}</span>
+            <span class="channel-badge ${chClass}">${chLabel}</span>
+          </div>
+          <div class="card-name">${escHtml(item.name)}</div>
+          <div class="card-nums">
+            <div class="num-box">
+              <div class="num-label">利益</div>
+              <div class="num-value profit">¥${item.profit.toLocaleString()}</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">期待値</div>
+              <div class="num-value ev">¥${item.expected_value.toLocaleString()}</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">利益率</div>
+              <div class="num-value rate">${item.profit_rate}%</div>
+            </div>
+            <div class="num-box">
+              <div class="num-label">当選確率</div>
+              <div class="num-value win">${item.win_rate}%</div>
+            </div>
+          </div>
+          <div class="profit-compare">
+            <span class="${amzClass}">Amazon ¥${amzProfit.toLocaleString()}</span>
+            <span class="${merClass}">メルカリ ¥${merProfit.toLocaleString()}</span>
+          </div>
+          <div class="ev-bar-wrap"><div class="ev-bar" style="width:${evPct}%"></div></div>
+          <div class="price-row">
+            <span>定価 ¥${item.list_price.toLocaleString()}</span>
+            <span>メルカリ相場 ¥${item.mercari_price.toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a class="btn-apply" href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+            応募・購入ページへ →
+          </a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  renderGrid();
+</script>
+</body>
+</html>

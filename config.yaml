@@ -1,0 +1,78 @@
+categories:
+  - id: trading_card
+    name: トレカ
+    keywords:
+      - ポケカ ハイクラスパック
+      - ポケカ シールドセット 限定
+      - ワンピースカード 限定BOX
+      - 遊戯王 シークレット 限定
+      - デュエマ 限定BOX
+    win_rate_base: 0.20
+    premium_multiplier_min: 1.3
+    premium_multiplier_max: 1.8
+
+  - id: magazine_appendix
+    name: 雑誌付録
+    keywords:
+      - Vジャンプ 付録 遊戯王
+      - 最強ジャンプ 付録 カード
+      - コロコロ 付録 限定
+    win_rate_base: 0.50
+    premium_multiplier_min: 1.1
+    premium_multiplier_max: 1.4
+
+  - id: ichiban_kuji
+    name: 一番くじ・食玩
+    keywords:
+      - 一番くじ A賞
+      - 一番くじ ラストワン
+      - 食玩 BOX 限定
+    win_rate_base: 0.12
+    premium_multiplier_min: 1.4
+    premium_multiplier_max: 2.0
+
+  - id: figure
+    name: フィギュア
+    keywords:
+      - ねんどろいど 限定 プレバン
+      - figma 限定版
+      - プライズフィギュア 限定
+      - ワンフェス 限定
+    win_rate_base: 0.15
+    premium_multiplier_min: 1.3
+    premium_multiplier_max: 1.8
+
+  - id: gadget
+    name: 小物ガジェット
+    keywords:
+      - コラボ イヤホン 限定 アニメ
+      - ゲーミング 限定カラー 数量限定
+    win_rate_base: 0.10
+    premium_multiplier_min: 1.2
+    premium_multiplier_max: 1.5
+
+fees:
+  mercari_rate: 0.10
+  shipping: 210
+  amazon:
+    referral_rates:
+      trading_card: 0.10
+      magazine_appendix: 0.08
+      ichiban_kuji: 0.10
+      figure: 0.10
+      gadget: 0.08
+      default: 0.10
+    fba_fee_small: 350
+    fba_fee_medium: 500
+
+thresholds:
+  min_profit: 500
+  min_profit_rate: 0.15
+  max_list_price: 30000
+
+rakuten:
+  hits_per_keyword: 10
+  sort: "-reviewCount"
+
+discord:
+  top_n: 3
