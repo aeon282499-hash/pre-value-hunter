@@ -52,6 +52,9 @@ RAKUTEN_OFFICIAL_SHOPS = {
     "biccamera":     "ビックカメラ",
     "nojima-online": "ノジマオンライン",
     "kojima":        "コジマ",
+    "joshin":        "ジョーシン",
+    "edion":         "エディオン",
+    "toysrus-japan": "トイザらス",
 }
 
 
@@ -260,6 +263,92 @@ def search_rakuten_shops(app_id: str, access_key: str) -> list[dict]:
     return results
 
 
+def search_yodobashi() -> list[dict]:
+    """ヨドバシドットコムのポケモンカード検索結果からBOXを抽出する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://www.yodobashi.com/category/10002000003000000000/?word=ポケモンカード+BOX&num=50"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/product/" not in href:
+            continue
+        full_url = urljoin("https://www.yodobashi.com", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article", "td"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .priceTxt, .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "ヨドバシドットコム",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
+def search_sevenet() -> list[dict]:
+    """セブンネットショッピングのポケモンカード検索結果からBOXを抽出する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://7net.omni7.jp/result/keyword/ポケモンカード%20BOX"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/detail/" not in href:
+            continue
+        full_url = urljoin("https://7net.omni7.jp", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "セブンネットショッピング",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
 def search_rakuten_scrape() -> list[dict]:
     """楽天APIキー未設定時のフォールバック: ポケセン公式楽天ショップを直スクレイプ"""
     results: list[dict] = []
@@ -363,7 +452,12 @@ _RETAILER_EMOJI = {
     "楽天 ポケモンセンター公式":  "🎮",
     "楽天 ビックカメラ":          "🟡",
     "楽天 ノジマオンライン":       "🔵",
+    "楽天 ジョーシン":            "🟣",
+    "楽天 エディオン":            "🔴",
+    "楽天 トイザらス":            "🧸",
     "楽天(ポケセン公式)":         "🎮",
+    "ヨドバシドットコム":          "🟠",
+    "セブンネットショッピング":    "🟢",
 }
 _STATUS_LABEL = {
     "available": "✅ 在庫あり",
@@ -440,13 +534,27 @@ def main() -> None:
     time.sleep(2)
 
     # ── 3. 楽天公式ショップ群 ────────────────────────────────────────
-    print("\n▶ 楽天公式ショップ (ポケセン・ビックカメラ・ノジマ)")
+    print("\n▶ 楽天公式ショップ (ポケセン・ビックカメラ・ノジマ・ジョーシン・エディオン・トイザらス)")
     if app_id and access_key:
         rakuten_items = search_rakuten_shops(app_id, access_key)
         print(f"  {len(rakuten_items)}件取得")
         all_events += detect_events(rakuten_items, state, is_initial)
     else:
         print("  [楽天APIキー未設定] スキップ（GitHub Secretsに設定済みなら本番で動作）")
+
+    # ── 4. ヨドバシドットコム ────────────────────────────────────────
+    print("\n▶ ヨドバシドットコム")
+    yodo_items = search_yodobashi()
+    print(f"  {len(yodo_items)}件取得")
+    all_events += detect_events(yodo_items, state, is_initial)
+    time.sleep(2)
+
+    # ── 5. セブンネットショッピング ─────────────────────────────────
+    print("\n▶ セブンネットショッピング")
+    seven_items = search_sevenet()
+    print(f"  {len(seven_items)}件取得")
+    all_events += detect_events(seven_items, state, is_initial)
+    time.sleep(2)
 
     # ── 保存・通知 ───────────────────────────────────────────────────
     state["last_updated"] = datetime.now(JST).isoformat()
