@@ -349,6 +349,178 @@ def search_sevenet() -> list[dict]:
     return results
 
 
+def search_yamada() -> list[dict]:
+    """ヤマダ電機オンラインでポケモンカードBOXを検索する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://www.yamada-denkiweb.com/search/?keyword=ポケモンカード+BOX&category_id=&sort=&page=1"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if not re.search(r"/\d+\.html", href):
+            continue
+        full_url = urljoin("https://www.yamada-denkiweb.com", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "ヤマダ電機",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
+def search_ksdenki() -> list[dict]:
+    """ケーズデンキオンラインでポケモンカードBOXを検索する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://www.ksdenki.com/ec/shp/searchList.html?words=ポケモンカード+BOX"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/shp/product/" not in href and "/ec/shp/" not in href:
+            continue
+        full_url = urljoin("https://www.ksdenki.com", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "ケーズデンキ",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
+def search_amiami() -> list[dict]:
+    """あみあみでポケモンカードBOXを検索する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://www.amiami.jp/top/search/?s_keywords=ポケモンカード+BOX&s_st_list_newitem_available=1"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/detail/?scode=" not in href and "/top/detail/" not in href:
+            continue
+        full_url = urljoin("https://www.amiami.jp", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "あみあみ",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
+def search_geo() -> list[dict]:
+    """ゲオ公式通販でポケモンカードBOXを検索する"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    url = "https://ec.geo-online.co.jp/shop/goods/search.aspx?search=ポケモンカード+BOX&searchf=1"
+    soup = _fetch(url)
+    if not soup:
+        return []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "/shop/goods/" not in href:
+            continue
+        full_url = urljoin("https://ec.geo-online.co.jp", href)
+        if full_url in seen:
+            continue
+        seen.add(full_url)
+
+        container = a.find_parent(["li", "div", "article", "td"])
+        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+        name = a.get_text(strip=True) or ctx[:80]
+        if not _is_box(name) and not _is_box(ctx):
+            continue
+
+        price = None
+        if container:
+            el = container.select_one("[class*='price'], .price")
+            if el:
+                price = _price(el.get_text())
+
+        results.append({
+            "name": name[:80],
+            "url": full_url,
+            "retailer": "ゲオ",
+            "status": _status(ctx),
+            "price": price,
+            "last_checked": datetime.now(JST).isoformat(),
+        })
+
+    return results
+
+
 def search_rakuten_scrape() -> list[dict]:
     """楽天APIキー未設定時のフォールバック: ポケセン公式楽天ショップを直スクレイプ"""
     results: list[dict] = []
@@ -458,6 +630,10 @@ _RETAILER_EMOJI = {
     "楽天(ポケセン公式)":         "🎮",
     "ヨドバシドットコム":          "🟠",
     "セブンネットショッピング":    "🟢",
+    "ヤマダ電機":                  "⚡",
+    "ケーズデンキ":                "🔌",
+    "あみあみ":                    "🎌",
+    "ゲオ":                        "🎮",
 }
 _STATUS_LABEL = {
     "available": "✅ 在庫あり",
@@ -554,6 +730,34 @@ def main() -> None:
     seven_items = search_sevenet()
     print(f"  {len(seven_items)}件取得")
     all_events += detect_events(seven_items, state, is_initial)
+    time.sleep(2)
+
+    # ── 6. ヤマダ電機 ────────────────────────────────────────────────
+    print("\n▶ ヤマダ電機")
+    yamada_items = search_yamada()
+    print(f"  {len(yamada_items)}件取得")
+    all_events += detect_events(yamada_items, state, is_initial)
+    time.sleep(2)
+
+    # ── 7. ケーズデンキ ──────────────────────────────────────────────
+    print("\n▶ ケーズデンキ")
+    ks_items = search_ksdenki()
+    print(f"  {len(ks_items)}件取得")
+    all_events += detect_events(ks_items, state, is_initial)
+    time.sleep(2)
+
+    # ── 8. あみあみ ──────────────────────────────────────────────────
+    print("\n▶ あみあみ")
+    ami_items = search_amiami()
+    print(f"  {len(ami_items)}件取得")
+    all_events += detect_events(ami_items, state, is_initial)
+    time.sleep(2)
+
+    # ── 9. ゲオ ──────────────────────────────────────────────────────
+    print("\n▶ ゲオ")
+    geo_items = search_geo()
+    print(f"  {len(geo_items)}件取得")
+    all_events += detect_events(geo_items, state, is_initial)
     time.sleep(2)
 
     # ── 保存・通知 ───────────────────────────────────────────────────
