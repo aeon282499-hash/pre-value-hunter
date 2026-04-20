@@ -44,7 +44,11 @@ _PREORDER  = ["予約受付中", "予約する", "予約注文"]
 
 # ── BOX判定 ──────────────────────────────────────────────────────────
 _BOX_WORDS     = ["BOX", "ボックス", "box"]
+_CARD_BRANDS   = ["ポケモン", "pokemon", "ポケカ", "ワンピース", "one piece", "onepiece", "ワンピカード"]
 _EXCLUDE_WORDS = ["スリーブ", "デッキケース", "ファイル", "シール", "バラ", "1パック", "1枚", "グッズ"]
+
+# ── 検索キーワード（複数ブランド対応）────────────────────────────────
+SEARCH_KEYWORDS = ["ポケモンカード BOX", "ワンピースカード BOX"]
 
 # ── 楽天公式ショップコード ────────────────────────────────────────────
 RAKUTEN_OFFICIAL_SHOPS = {
@@ -78,17 +82,17 @@ def _status(text: str) -> str:
 
 
 def _is_box(name: str) -> bool:
-    """ポケモンカードBOX商品か判定。拡張パック/強化拡張パックも含む（シュリンク付きBOXが対象）"""
+    """トレカBOX商品か判定（ポケモン・ワンピース対応）"""
     n = name.lower()
-    ok_pkm = "ポケモン" in name or "pokemon" in n or "ポケカ" in name
-    # BOX表記 or カード拡張パック（シュリンク付きBOXとして扱う）
+    ok_card = any(w.lower() in n for w in _CARD_BRANDS)
     ok_box = (
         any(w.lower() in n for w in _BOX_WORDS)
         or ("拡張パック" in name and "カードゲーム" in name)
         or ("強化拡張パック" in name)
+        or ("ブースターパック" in name and "カードゲーム" in name)
     )
     ng = any(w in name for w in _EXCLUDE_WORDS)
-    return ok_pkm and ok_box and not ng
+    return ok_card and ok_box and not ng
 
 
 def _price(text: str) -> int | None:
@@ -210,315 +214,154 @@ def search_pokemoncenter() -> list[dict]:
 # ── 楽天API: 複数公式ショップを横断検索 ───────────────────────────────
 
 def search_rakuten_shops(app_id: str, access_key: str) -> list[dict]:
-    """ポケセン公式・ビックカメラ・ノジマ 各楽天ショップでBOX検索"""
+    """各楽天公式ショップでポケモン・ワンピースBOXを検索"""
     results: list[dict] = []
     seen: set[str] = set()
 
     for shop_code, shop_name in RAKUTEN_OFFICIAL_SHOPS.items():
-        url = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401"
-        params = {
-            "applicationId": app_id,
-            "accessKey":     access_key,
-            "keyword":       "ポケモンカード BOX",
-            "shopCode":      shop_code,
-            "hits":          20,
-            "sort":          "-updateTimestamp",
-            "formatVersion": 2,
-        }
-        try:
-            resp = requests.get(url, params=params, timeout=15)
-            if resp.status_code != 200:
-                print(f"  [{shop_name}] 楽天API {resp.status_code}")
+        for keyword in SEARCH_KEYWORDS:
+            api_url = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401"
+            params = {
+                "applicationId": app_id,
+                "accessKey":     access_key,
+                "keyword":       keyword,
+                "shopCode":      shop_code,
+                "hits":          20,
+                "sort":          "-updateTimestamp",
+                "formatVersion": 2,
+            }
+            try:
+                resp = requests.get(api_url, params=params, timeout=15)
+                if resp.status_code != 200:
+                    print(f"  [{shop_name}] 楽天API {resp.status_code}")
+                    continue
+                data = resp.json()
+            except Exception as e:
+                print(f"  [{shop_name}] 楽天APIエラー: {e}")
                 continue
-            data = resp.json()
-        except Exception as e:
-            print(f"  [{shop_name}] 楽天APIエラー: {e}")
+
+            for it in data.get("Items", []):
+                item = it if isinstance(it, dict) and "itemName" in it else it.get("Item", {})
+                name = item.get("itemName", "")
+                if not _is_box(name):
+                    continue
+                item_url = item.get("itemUrl", "")
+                if item_url in seen:
+                    continue
+                seen.add(item_url)
+
+                availability = item.get("availability", 0)
+                results.append({
+                    "name": name[:80],
+                    "url": item_url,
+                    "retailer": f"楽天 {shop_name}",
+                    "status": "available" if availability == 1 else "soldout",
+                    "price": item.get("itemPrice"),
+                    "last_checked": datetime.now(JST).isoformat(),
+                })
+            time.sleep(1)
+
+    return results
+
+
+def _scrape_search(base_url_template: str, retailer: str,
+                   link_filter_fn, base: str) -> list[dict]:
+    """共通スクレイプ処理。SEARCH_KEYWORDSでループして重複排除して返す。"""
+    results: list[dict] = []
+    seen: set[str] = set()
+
+    for keyword in SEARCH_KEYWORDS:
+        url = base_url_template.format(kw=requests.utils.quote(keyword))
+        soup = _fetch(url)
+        if not soup:
             continue
 
-        items = data.get("Items", [])
-        for it in items:
-            item = it if isinstance(it, dict) and "itemName" in it else it.get("Item", {})
-            name = item.get("itemName", "")
-            if not _is_box(name):
+        for a in soup.find_all("a", href=True):
+            href = a["href"]
+            if not link_filter_fn(href):
                 continue
-            item_url = item.get("itemUrl", "")
-            if item_url in seen:
+            full_url = urljoin(base, href)
+            if full_url in seen:
                 continue
-            seen.add(item_url)
+            seen.add(full_url)
 
-            availability = item.get("availability", 0)
-            st = "available" if availability == 1 else "soldout"
+            container = a.find_parent(["li", "div", "article", "td"])
+            ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
+            name = a.get_text(strip=True) or ctx[:80]
+            if not _is_box(name) and not _is_box(ctx):
+                continue
+
+            price = None
+            if container:
+                el = container.select_one("[class*='price'], .priceTxt, .price")
+                if el:
+                    price = _price(el.get_text())
 
             results.append({
                 "name": name[:80],
-                "url": item_url,
-                "retailer": f"楽天 {shop_name}",
-                "status": st,
-                "price": item.get("itemPrice"),
+                "url": full_url,
+                "retailer": retailer,
+                "status": _status(ctx),
+                "price": price,
                 "last_checked": datetime.now(JST).isoformat(),
             })
-
         time.sleep(1)
 
     return results
 
 
 def search_yodobashi() -> list[dict]:
-    """ヨドバシドットコムのポケモンカード検索結果からBOXを抽出する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://www.yodobashi.com/category/10002000003000000000/?word=ポケモンカード+BOX&num=50"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "/product/" not in href:
-            continue
-        full_url = urljoin("https://www.yodobashi.com", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article", "td"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .priceTxt, .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "ヨドバシドットコム",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://www.yodobashi.com/category/10002000003000000000/?word={kw}&num=50",
+        "ヨドバシドットコム",
+        lambda h: "/product/" in h,
+        "https://www.yodobashi.com",
+    )
 
 
 def search_sevenet() -> list[dict]:
-    """セブンネットショッピングのポケモンカード検索結果からBOXを抽出する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://7net.omni7.jp/result/keyword/ポケモンカード%20BOX"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "/detail/" not in href:
-            continue
-        full_url = urljoin("https://7net.omni7.jp", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "セブンネットショッピング",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://7net.omni7.jp/result/keyword/{kw}",
+        "セブンネットショッピング",
+        lambda h: "/detail/" in h,
+        "https://7net.omni7.jp",
+    )
 
 
 def search_yamada() -> list[dict]:
-    """ヤマダ電機オンラインでポケモンカードBOXを検索する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://www.yamada-denkiweb.com/search/?keyword=ポケモンカード+BOX&category_id=&sort=&page=1"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if not re.search(r"/\d+\.html", href):
-            continue
-        full_url = urljoin("https://www.yamada-denkiweb.com", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "ヤマダ電機",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://www.yamada-denkiweb.com/search/?keyword={kw}&category_id=&sort=&page=1",
+        "ヤマダ電機",
+        lambda h: bool(re.search(r"/\d+\.html", h)),
+        "https://www.yamada-denkiweb.com",
+    )
 
 
 def search_ksdenki() -> list[dict]:
-    """ケーズデンキオンラインでポケモンカードBOXを検索する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://www.ksdenki.com/ec/shp/searchList.html?words=ポケモンカード+BOX"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "/shp/product/" not in href and "/ec/shp/" not in href:
-            continue
-        full_url = urljoin("https://www.ksdenki.com", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "ケーズデンキ",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://www.ksdenki.com/ec/shp/searchList.html?words={kw}",
+        "ケーズデンキ",
+        lambda h: "/shp/product/" in h or ("/ec/shp/" in h and h.count("/") > 4),
+        "https://www.ksdenki.com",
+    )
 
 
 def search_amiami() -> list[dict]:
-    """あみあみでポケモンカードBOXを検索する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://www.amiami.jp/top/search/?s_keywords=ポケモンカード+BOX&s_st_list_newitem_available=1"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "/detail/?scode=" not in href and "/top/detail/" not in href:
-            continue
-        full_url = urljoin("https://www.amiami.jp", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "あみあみ",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://www.amiami.jp/top/search/?s_keywords={kw}&s_st_list_newitem_available=1",
+        "あみあみ",
+        lambda h: "/detail/?scode=" in h or "/top/detail/" in h,
+        "https://www.amiami.jp",
+    )
 
 
 def search_geo() -> list[dict]:
-    """ゲオ公式通販でポケモンカードBOXを検索する"""
-    results: list[dict] = []
-    seen: set[str] = set()
-
-    url = "https://ec.geo-online.co.jp/shop/goods/search.aspx?search=ポケモンカード+BOX&searchf=1"
-    soup = _fetch(url)
-    if not soup:
-        return []
-
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if "/shop/goods/" not in href:
-            continue
-        full_url = urljoin("https://ec.geo-online.co.jp", href)
-        if full_url in seen:
-            continue
-        seen.add(full_url)
-
-        container = a.find_parent(["li", "div", "article", "td"])
-        ctx = container.get_text(strip=True) if container else a.get_text(strip=True)
-        name = a.get_text(strip=True) or ctx[:80]
-        if not _is_box(name) and not _is_box(ctx):
-            continue
-
-        price = None
-        if container:
-            el = container.select_one("[class*='price'], .price")
-            if el:
-                price = _price(el.get_text())
-
-        results.append({
-            "name": name[:80],
-            "url": full_url,
-            "retailer": "ゲオ",
-            "status": _status(ctx),
-            "price": price,
-            "last_checked": datetime.now(JST).isoformat(),
-        })
-
-    return results
+    return _scrape_search(
+        "https://ec.geo-online.co.jp/shop/goods/search.aspx?search={kw}&searchf=1",
+        "ゲオ",
+        lambda h: "/shop/goods/" in h and h != "/shop/goods/search.aspx",
+        "https://ec.geo-online.co.jp",
+    )
 
 
 def search_rakuten_scrape() -> list[dict]:
