@@ -217,11 +217,12 @@ def main() -> None:
     render_dashboard(output, config)
     print("🎨 docs/index.html を生成しました")
 
-    # Discord 通知
+    # Discord 通知（ポケモンカード/トレカのみ）
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "")
     if webhook_url:
         top_n = config.get("discord", {}).get("top_n", 3)
-        send_discord(webhook_url, items[:top_n])
+        card_items = [i for i in items if i.get("category_id") == "trading_card"]
+        send_discord(webhook_url, card_items[:top_n])
 
     # サマリー表示
     print("\n━━ TOP 5 ━━")
