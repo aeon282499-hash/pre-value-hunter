@@ -2,7 +2,7 @@ name: Pokemon Card BOX Watcher
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # 10分ごと（GitHub Actionsの最小間隔は5分）
+    - cron: '*/5 * * * *'   # 5分ごと（GitHub Actionsの最小間隔）
   workflow_dispatch:
 
 permissions:

@@ -103,6 +103,39 @@ def _price(text: str) -> int | None:
     return None
 
 
+def _amazon_seller_is_amazon(soup: BeautifulSoup) -> bool:
+    """Amazon商品ページで販売者がAmazon.co.jpかどうか判定する。
+    判定できない場合はTrueを返して通知を通す（見逃し防止）。"""
+    # buyboxのマーチャント情報を優先チェック
+    for sel in [
+        "#merchant-info",
+        "#tabular-buybox-container",
+        "#desktop_buybox",
+        "#buybox",
+        "#newBuyBoxPrice",
+    ]:
+        el = soup.select_one(sel)
+        if not el:
+            continue
+        text = el.get_text(" ", strip=True)
+        # 明確にAmazon.co.jp以外の販売者名が出ていたら転売屋
+        if re.search(r"販売[:：]\s*Amazon\.co\.jp", text, re.IGNORECASE):
+            return True
+        if re.search(r"販売[:：]", text) and "Amazon.co.jp" not in text:
+            return False
+
+    # ページ全体で「販売: Amazon.co.jp」を探す
+    page_text = soup.get_text(" ", strip=True)
+    if re.search(r"販売[:：]\s*Amazon\.co\.jp", page_text, re.IGNORECASE):
+        return True
+    # 販売者が明記されていてAmazonでない
+    m = re.search(r"販売[:：]\s*(.{1,40}?)(?:\s|　|$)", page_text)
+    if m and "Amazon.co.jp" not in m.group(1):
+        return False
+
+    return True  # 判定不能 → 通知を通す
+
+
 # ── 状態ファイル ──────────────────────────────────────────────────────
 
 def load_state() -> dict:
@@ -150,11 +183,19 @@ def check_product_page(url: str) -> dict | None:
     m = re.search(r"https?://(?:www\.)?([^/]+)", url)
     retailer = m.group(1) if m else url
 
+    status = _status(page_text)
+
+    # AmazonはAmazon.co.jp販売のみ通知（マーケットプレイス転売屋を除外）
+    if "amazon.co.jp" in url.lower() and status == "available":
+        if not _amazon_seller_is_amazon(soup):
+            status = "soldout"
+            print(f"  [Amazon] 転売屋出品のためスキップ: {name[:40]}")
+
     return {
         "name": name,
         "url": url,
         "retailer": retailer,
-        "status": _status(page_text),
+        "status": status,
         "price": price,
         "last_checked": datetime.now(JST).isoformat(),
     }
@@ -492,6 +533,15 @@ _EVENT_HEADER = {
 }
 
 
+def _cart_url(url: str) -> str | None:
+    """Amazon商品URLからワンタップカートURLを生成する"""
+    m = re.search(r"amazon\.co\.jp/(?:dp|gp/product)/([A-Z0-9]{10})", url)
+    if m:
+        asin = m.group(1)
+        return f"https://www.amazon.co.jp/gp/aws/cart/add.html?ASIN.1={asin}&Quantity.1=1"
+    return None
+
+
 def send_discord(webhook_url: str, events: list[dict]) -> None:
     if not events:
         return
@@ -502,13 +552,16 @@ def send_discord(webhook_url: str, events: list[dict]) -> None:
         emoji   = _RETAILER_EMOJI.get(ev["retailer"], "🏪")
         status  = _STATUS_LABEL.get(ev["status"], ev["status"])
         price_s = f"¥{ev['price']:,}" if ev.get("price") else "価格不明"
+        cart    = _cart_url(ev["url"])
         lines += [
             header,
             f"{emoji} {ev['retailer']}  |  {status}  |  {price_s}",
             f"**{ev['name'][:60]}**",
-            f"🔗 {ev['url']}",
-            "─────────────",
+            f"🔗 商品ページ: {ev['url']}",
         ]
+        if cart:
+            lines.append(f"🛒 **カートに入れる（ワンタップ）**: {cart}")
+        lines.append("─────────────")
     if len(events) > 5:
         lines.append(f"... 他 {len(events) - 5} 件")
 
