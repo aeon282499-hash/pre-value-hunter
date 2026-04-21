@@ -1,4 +1,4 @@
-generated_at: '2026-04-21T09:07:39.752915+09:00'
+generated_at: '2026-04-22T08:55:48.371483+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,6 +400,14 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
+- url: https://p-bandai.jp/item/item-1000249554/
+  name: ソフビアーティスト・Frog Treeによって創造された赤き幽鬼！「UKVA レッドキング赤鬼」がプレバンにて抽選販売!!
+  list_price: 40000
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
 - url: https://p-bandai.jp/item/item-1000249829/
   name: トールギス、ウイングガンダム、シェンロンガンダム、ガンダムデスサイズなど7種のデザイン！『新機動戦記ガンダムW』のTシャツ、バスタオル、アクリルチャームの2026年5月発送分がプレバンで予約受付中!!
   list_price: 3850
@@ -512,14 +520,6 @@ items:
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249512/
-  name: 食玩フィギュア「もっちりころりん♪クレヨンしんちゃん2」が登場！くったりしている、しんちゃんたちに癒される！
-  list_price: 4620
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
 - url: https://www.pokemoncenter-online.com/4521329437446.html
   name: A4クリアファイル Pokémon Timeless Adventure ジョウトファイル・ホルダー
   list_price: 495
@@ -576,25 +576,25 @@ items:
   deadline: ''
   note: '[自動取得] ポケモンセンター'
   source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4560423198310.html
-  name: Nintendo Switch Pokémon LEGENDS Z-A+M次元ラッシュ　スーパーミュージック・コンプリートCD
-  list_price: 5830
+- url: https://www.pokemoncenter-online.com/4570118133052.html
+  name: びっくらたまご　イーブイフレンズフィギュアコレクション　～よびかけタイム～バス・トイレタリー
+  list_price: 550
   category_id: trading_card
   sale_start: ''
   deadline: ''
   note: '[自動取得] ポケモンセンター'
   source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4550376227960.html
-  name: プリントワッペンソックス　デデンネ　ジュニア（15～21cm）キッズ 靴下
-  list_price: 660
+- url: https://www.pokemoncenter-online.com/4570118133045.html
+  name: びっくらたまご　ポケモンフィギュアコレクション　～バトルスタイル～バス・トイレタリー
+  list_price: 550
   category_id: trading_card
   sale_start: ''
   deadline: ''
   note: '[自動取得] ポケモンセンター'
   source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4550376227977.html
-  name: プリントワッペンソックス　ニンフィア　ジュニア（15～21cm）キッズ 靴下
-  list_price: 660
+- url: https://www.pokemoncenter-online.com/4573102725264.html
+  name: ポケモンプラモコレクション　クイック!!　サンダースフィギュア・プラモデル
+  list_price: 858
   category_id: trading_card
   sale_start: ''
   deadline: ''
@@ -611,6 +611,14 @@ items:
 - url: https://www.pokemoncenter-online.com/4521329362571.html
   name: ポケモンカードゲーム スカーレット＆バイオレット 強化拡張パック ナイトワンダラー拡張パック
   list_price: 180
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4560423198310.html
+  name: Nintendo Switch Pokémon LEGENDS Z-A+M次元ラッシュ　スーパーミュージック・コンプリートCD
+  list_price: 5830
   category_id: trading_card
   sale_start: ''
   deadline: ''
