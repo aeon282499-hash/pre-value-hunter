@@ -1,4 +1,4 @@
-generated_at: '2026-04-20T00:22:46.136476+09:00'
+generated_at: '2026-04-21T09:07:39.752915+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,106 +400,121 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
-- url: https://p-bandai.jp/item/item-1000245529/
-  name: 『仮面ライダーゼッツ』カタストロムがS.H.Figuartsに登場！マッシブな上半身の造形を忠実に再現、デュアルメアカプセムを装填できるトリプルゼッツァーも付属！
-  list_price: 9900
+- url: https://p-bandai.jp/item/item-1000249829/
+  name: トールギス、ウイングガンダム、シェンロンガンダム、ガンダムデスサイズなど7種のデザイン！『新機動戦記ガンダムW』のTシャツ、バスタオル、アクリルチャームの2026年5月発送分がプレバンで予約受付中!!
+  list_price: 3850
   category_id: figure
   sale_start: ''
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000248893/
-  name: 『マジンガーZ』とばせ鉄拳！ロケットパンチを繰り出す姿を臨場感たっぷりに立体化したフィギュア「シーンセレクション」が登場！
-  list_price: 7480
+- url: https://p-bandai.jp/item/item-1000249662/
+  name: 『仮面ライダーギーツ 4人のエースと黒狐』仮面ライダーXギーツの武器・ギーツバスターXが大人向け大型武器玩具「PREMIUM DX」から商品化！
+  list_price: 17600
   category_id: figure
   sale_start: ''
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249534/
-  name: 『ウルトラマンガイア』第44話「宇宙怪獣大進撃」に登場した超コッヴが「大怪獣シリーズ」からフィギュア化！全高約30センチのビッグサイズで登場！
-  list_price: 27500
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249658/
-  name: 麦わらの一味とバロックワークスの限定カードを収録！「ONE PIECEカードゲーム」よりNetflix実写ドラマシーズン2の公開を記念した特別なカードセット2種がプレバンで2次受注！
-  list_price: 1980
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000248894/
-  name: 『崩壊：スターレイル』ゲーム中のスペシャルカラーリングに合わせ、装甲をホワイトメタリックに一新した「S.H.Figuarts サム -Spring
-    Missive-」が登場！2026年4月17日（金）予約開始！
-  list_price: 13200
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000245801/
-  name: サイコ・フレームが発光するイメージでディスプレイが可能！「PG UNLEASHED 1/60 νガンダム用 LEDユニット」の通常販売ページがオープン！
-  list_price: 15400
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249350/
-  name: 「HG リゼル（ディフェンサーbユニット）」や「HG アイザック／ガザＣ／ギラ・ドーガ（ユニコーンVer．）」など『機動戦士ガンダムUC』関連のガンプラ3種が再販！4月16日（木）予約開始！
-  list_price: 3190
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249649/
-  name: 『ガンダムビルドダイバーズ』のガンプラ「MG ガンダムAGEIIマグナム」と「HG キュベレイ」が再販！プレミアムバンダイにて通常販売ページがオープン！
-  list_price: 6490
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000240837/
-  name: たまごっち30周年記念！歴代まめっちをお世話できる「まめっちメモリーズ 30thいえろー／30thぶるー」がプレミアムバンダイに登場！
-  list_price: 6600
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000246080/
-  name: 『仮面ライダーゴースト』CSMゴーストドライバーが4月14日（火）予約開始！ゴースト・スペクター・カノンスペクターの眼魂が付属、「CSM15英雄ゴースト眼魂セット」の商品化も決定！
-  list_price: 28600
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249523/
-  name: 『機動戦士ガンダムSEED』のホログラム箔が輝くクリアシート「プレシャスショットコレクション」が登場！プレバンで予約受付開始!!
-  list_price: 6930
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249347/
-  name: 雌伏の刻を耐えたジオン勢力が再び決起！ユニコーンカラーVer.のズゴック、ザク・キャノン、マラサイのMGキットがプレバンにて再販!!
+- url: https://p-bandai.jp/item/item-1000249723/
+  name: マフティーマークを着こなせ！『機動戦士ガンダム 閃光のハサウェイ』のキャップ、Tシャツ、長袖Tシャツがプレバンで予約受付中！
   list_price: 3960
   category_id: figure
   sale_start: ''
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249479/
-  name: 『機動戦士ガンダム 閃光のハサウェイ キルケーの魔女』のキービジュアルを使用したタペストリー、B2タオル、アクリルスタンド、アクリルチャームがプレバンで予約受付中！
-  list_price: 3300
+- url: https://p-bandai.jp/item/item-1000249518/
+  name: 『ジョジョの奇妙な冒険』のシール付きウエハース「にふぉるめーしょん」第9弾が登場！『スティール・ボール・ラン』キャラクターも収録！
+  list_price: 2970
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249509/
+  name: コンシェルジュ衣装がスタイリッシュな「にじさんじ」の缶バッジビスケット第3弾と第4弾の12個入りセットがプレバンにて予約受付開始!!
+  list_price: 4620
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249526/
+  name: 『超かぐや姫！』のカード付きウエハースが登場！美麗ビジュアルやキャラクター、場面カットをデザインしたカードは全35種！
+  list_price: 3960
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000243624/
+  name: 『劇場版 魔法少女まどか☆マギカ〈ワルプルギスの廻天〉』より、デスクトップに飾れる食玩「ちびキャラクリル」が登場！デフォルメされたまどかたちがラインナップ！
+  list_price: 5500
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249835/
+  name: カントー地方からリーフ、ピクシー、ゲンガーを収録した食玩フィギュア「ポケモンスケールワールド」が再販！2026年8月発送分がプレミアムバンダイに登場！
+  list_price: 6325
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249524/
+  name: キラキラと高級感のあるメタリックプラカードを収録した「ホロライブプロダクション ウエハースvol.6」20個入りセットがプレバンで4月20日（月）予約開始！
+  list_price: 3420
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249515
+  name: TVアニメ『ONE PIECE』のシールウエハース第15弾が新発売！『エルバフ編』のキャラクターや、強者集う王下七武海がラインナップ！
+  list_price: 2970
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249520/
+  name: 『ウマ娘』ドレスやスターティングフューチャー衣装のカードを収録した特別な「ツインウエハース」が2026年も登場！プレミアムバンダイでは20個入りセットが4月20日（月）予約開始！
+  list_price: 3960
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000243647/
+  name: ちいかわたちがホイップクリームのようなふんわりデザインに！食玩「ちいかわ ホイップマグ ボーロつき」がプレミアムバンダイに登場！
+  list_price: 3850
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249516/
+  name: バレーボール女子日本代表選手のカード付きウエハースが登場！2026年の日本代表シーズンに合わせて8月発売予定！
+  list_price: 4400
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000246778/
+  name: 今回のテーマは「カラフルフルーツ」！食玩「きぐるみ～ず サンリオキャラクターズ」第2弾の10個入りがプレバンに登場！
+  list_price: 5390
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249512/
+  name: 食玩フィギュア「もっちりころりん♪クレヨンしんちゃん2」が登場！くったりしている、しんちゃんたちに癒される！
+  list_price: 4620
   category_id: figure
   sale_start: ''
   deadline: ''
