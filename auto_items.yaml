@@ -1,4 +1,4 @@
-generated_at: '2026-04-23T14:58:04.253629+09:00'
+generated_at: '2026-04-24T07:49:30.405079+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,6 +400,14 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
+- url: https://p-bandai.jp/item/item-1000247158/
+  name: 『仮面ライダーアギト』津上翔一がS.H.Figuartsでフィギュア化！賀集利樹氏をスキャンし、顔の骨格やプロポーションなどを細部までこだわって再現！
+  list_price: 11000
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
 - url: https://p-bandai.jp/item/item-1000249953/
   name: 『機動戦士ガンダム』『閃光のハサウェイ キルケーの魔女』と「NEW ERA(R)」のコラボキャップが「STRICT-G」に登場！マフティー、シャア・アズナブル、ジオン公国軍の3種！
   list_price: 6600
@@ -507,14 +515,6 @@ items:
 - url: https://p-bandai.jp/item/item-1000243624/
   name: 『劇場版 魔法少女まどか☆マギカ〈ワルプルギスの廻天〉』より、デスクトップに飾れる食玩「ちびキャラクリル」が登場！デフォルメされたまどかたちがラインナップ！
   list_price: 5500
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249835/
-  name: カントー地方からリーフ、ピクシー、ゲンガーを収録した食玩フィギュア「ポケモンスケールワールド」が再販！2026年8月発送分がプレミアムバンダイに登場！
-  list_price: 6325
   category_id: figure
   sale_start: ''
   deadline: ''
