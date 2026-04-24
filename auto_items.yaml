@@ -1,4 +1,4 @@
-generated_at: '2026-04-24T07:49:30.405079+09:00'
+generated_at: '2026-04-25T07:42:19.067223+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,6 +400,38 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
+- url: https://p-bandai.jp/item/item-1000249931/
+  name: 『ナンバーワン戦隊ゴジュウジャー』メモリアル仕様の「テガソード」の3次生産分がプレミアムバンダイに登場！4月28日（火）16時予約開始！
+  list_price: 22000
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000250130/
+  name: 『機動戦士ガンダムSEED』大胆な和柄タッチのフリーダムガンダム、ジャスティスガンダムが背中に刺繍されたリバーシブル仕様のスカジャン2種が「STRICT-G」に登場！
+  list_price: 37400
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249948/
+  name: 『新機動戦記ガンダムW』の世界観をフロントにデザイン！再生ポリエステル素材を使用したアクティブドライTシャツが白、黒の2色展開で「STRICT-G」登場！
+  list_price: 5500
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249575/
+  name: 『機動戦士ガンダム 閃光のハサウェイ キルケーの魔女』のガンプラ「HG メッサーM01型（ガウマン機）」がプレミアムバンダイにて抽選販売決定！
+  list_price: 3740
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
 - url: https://p-bandai.jp/item/item-1000247158/
   name: 『仮面ライダーアギト』津上翔一がS.H.Figuartsでフィギュア化！賀集利樹氏をスキャンし、顔の骨格やプロポーションなどを細部までこだわって再現！
   list_price: 11000
@@ -472,51 +504,115 @@ items:
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249662/
-  name: 『仮面ライダーギーツ 4人のエースと黒狐』仮面ライダーXギーツの武器・ギーツバスターXが大人向け大型武器玩具「PREMIUM DX」から商品化！
-  list_price: 17600
-  category_id: figure
+- url: https://www.pokemoncenter-online.com/4521329437446.html
+  name: A4クリアファイル Pokémon Timeless Adventure ジョウトファイル・ホルダー
+  list_price: 495
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249723/
-  name: マフティーマークを着こなせ！『機動戦士ガンダム 閃光のハサウェイ』のキャップ、Tシャツ、長袖Tシャツがプレバンで予約受付中！
-  list_price: 3960
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437842.html
+  name: アクリルキーホルダー Pokémon Timeless Adventure ジョウトキーホルダー・バッジ・ピンズ
+  list_price: 935
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249518/
-  name: 『ジョジョの奇妙な冒険』のシール付きウエハース「にふぉるめーしょん」第9弾が登場！『スティール・ボール・ラン』キャラクターも収録！
-  list_price: 2970
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437750.html
+  name: アクリルブロック Pokémon Timeless Adventure ジョウトファッション雑貨
+  list_price: 2860
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249509/
-  name: コンシェルジュ衣装がスタイリッシュな「にじさんじ」の缶バッジビスケット第3弾と第4弾の12個入りセットがプレバンにて予約受付開始!!
-  list_price: 4620
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329438108.html
+  name: うたうフィギュア プリンフィギュア・プラモデル
+  list_price: 6600
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249526/
-  name: 『超かぐや姫！』のカード付きウエハースが登場！美麗ビジュアルやキャラクター、場面カットをデザインしたカードは全35種！
-  list_price: 3960
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329438115.html
+  name: うたうフィギュア メロエッタフィギュア・プラモデル
+  list_price: 6600
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000243624/
-  name: 『劇場版 魔法少女まどか☆マギカ〈ワルプルギスの廻天〉』より、デスクトップに飾れる食玩「ちびキャラクリル」が登場！デフォルメされたまどかたちがラインナップ！
-  list_price: 5500
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329436890.html
+  name: ステッカーセット Pokémon Timeless Adventure ジョウトシール・スタンプ
+  list_price: 770
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437934.html
+  name: ロールクッキー Pokémon Timeless Adventure ジョウトお菓子
+  list_price: 1760
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4904790175565.html
+  name: ポケモンフレンダ　フレンダフォルダー ピカチュウバージョンその他おもちゃ
+  list_price: 858
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4550432270282.html
+  name: ショルダートート／BASIC　ピカチュウバッグ
+  list_price: 4400
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4550432270336.html
+  name: ショルダートート／MOFU MOFU EIEVUIバッグ
+  list_price: 4400
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329360997.html
+  name: ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ステラミラクル拡張パック
+  list_price: 180
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329362571.html
+  name: ポケモンカードゲーム スカーレット＆バイオレット 強化拡張パック ナイトワンダラー拡張パック
+  list_price: 180
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4560423198310.html
+  name: Nintendo Switch Pokémon LEGENDS Z-A+M次元ラッシュ　スーパーミュージック・コンプリートCD
+  list_price: 5830
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329460420.html
+  name: 『ぽこ あ ポケモン』ゲームソフト
+  list_price: 8980
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
