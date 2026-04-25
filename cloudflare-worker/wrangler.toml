@@ -1,0 +1,14 @@
+name = "amazon-pokemon-watcher"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+
+# 毎分実行
+[triggers]
+crons = ["* * * * *"]
+
+# KV namespace（在庫状態保存用・後で wrangler コマンドで作成して id を埋める）
+[[kv_namespaces]]
+binding = "STOCK_STATE"
+id = "REPLACE_WITH_KV_ID"
+
+# DISCORD_WEBHOOK_URL は wrangler secret put DISCORD_WEBHOOK_URL で設定
