@@ -6,7 +6,7 @@
       "retailer": "pokemoncenter-online.com",
       "status": "lottery",
       "price": 6000,
-      "last_checked": "2026-04-26T05:53:34.371648+09:00"
+      "last_checked": "2026-04-26T06:25:48.501289+09:00"
     },
     "https://www.pokemoncenter-online.com/4521329360997.html": {
       "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ステラミラクル180円",
@@ -14,7 +14,7 @@
       "retailer": "ポケモンセンターオンライン",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:55:30.377482+09:00"
+      "last_checked": "2026-04-26T06:27:44.098688+09:00"
     },
     "https://www.pokemoncenter-online.com/4521329362571.html": {
       "name": "ポケモンカードゲーム スカーレット＆バイオレット 強化拡張パック ナイトワンダラー180円",
@@ -22,15 +22,15 @@
       "retailer": "ポケモンセンターオンライン",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:55:30.377729+09:00"
+      "last_checked": "2026-04-26T06:27:44.098912+09:00"
     },
     "https://www.amazon.co.jp/dp/B0DKHHYTGJ": {
-      "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ロケット団の栄光 BOX",
+      "name": "拡張パック ロケット団の栄光 BOX（4/19発売済）",
       "url": "https://www.amazon.co.jp/dp/B0DKHHYTGJ",
       "retailer": "amazon.co.jp",
-      "status": "lottery",
+      "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:53:37.478382+09:00"
+      "last_checked": "2026-04-26T06:25:50.079165+09:00"
     },
     "https://books.rakuten.co.jp/rb/18061661/": {
       "name": "ポケモンカードゲーム スカーレット＆バイオレット 拡張パック ロケット団の栄光　【30パック】玩具",
@@ -38,7 +38,7 @@
       "retailer": "books.rakuten.co.jp",
       "status": "lottery",
       "price": 5412,
-      "last_checked": "2026-04-26T05:53:59.940247+09:00"
+      "last_checked": "2026-04-26T06:26:12.555643+09:00"
     },
     "https://www.amazon.co.jp/dp/B0F18J2CJF": {
       "name": "MEGA 拡張パック メガブレイブ BOX",
@@ -46,7 +46,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:23.290834+09:00"
+      "last_checked": "2026-04-26T06:26:35.861808+09:00"
     },
     "https://www.amazon.co.jp/dp/B0F189YH8W": {
       "name": "MEGA 拡張パック メガシンフォニア BOX",
@@ -54,7 +54,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:24.854601+09:00"
+      "last_checked": "2026-04-26T06:26:37.427792+09:00"
     },
     "https://www.amazon.co.jp/dp/B0FLCWJ1VK": {
       "name": "MEGA ハイクラスパック MEGAドリームex BOX",
@@ -62,7 +62,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:27.990552+09:00"
+      "last_checked": "2026-04-26T06:26:40.565133+09:00"
     },
     "https://www.amazon.co.jp/dp/B0FSJXSPPX": {
       "name": "MEGA 拡張パック ムニキスゼロ BOX（1/23発売済）",
@@ -70,7 +70,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:29.554127+09:00"
+      "last_checked": "2026-04-26T06:26:42.126884+09:00"
     },
     "https://www.pokemoncenter-online.com/9900000007003.html": {
       "name": "【抽選販売】ポケモンカードゲーム MEGA 拡張パック ムニキスゼロ BOX拡張パック",
@@ -78,7 +78,7 @@
       "retailer": "pokemoncenter-online.com",
       "status": "lottery",
       "price": 5400,
-      "last_checked": "2026-04-26T05:54:31.335851+09:00"
+      "last_checked": "2026-04-26T06:26:43.928421+09:00"
     },
     "https://www.amazon.co.jp/dp/B0G1XB2STM": {
       "name": "MEGA 拡張パック ニンジャスピナー BOX",
@@ -86,15 +86,15 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:32.901400+09:00"
+      "last_checked": "2026-04-26T06:26:45.492492+09:00"
     },
     "https://www.amazon.co.jp/dp/B0F9KJGGZ5": {
-      "name": "MEGA 拡張パック インフェルノX BOX",
+      "name": "ポケモンカードゲーム MEGA 拡張パック インフェルノX BOX",
       "url": "https://www.amazon.co.jp/dp/B0F9KJGGZ5",
       "retailer": "amazon.co.jp",
-      "status": "unknown",
-      "price": null,
-      "last_checked": "2026-04-26T05:54:34.465166+09:00"
+      "status": "preorder",
+      "price": 5412,
+      "last_checked": "2026-04-26T06:26:47.513686+09:00"
     },
     "https://www.amazon.co.jp/dp/B0F18B4CVX": {
       "name": "MEGA プレミアムトレーナーBOX MEGA",
@@ -102,7 +102,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:26.423213+09:00"
+      "last_checked": "2026-04-26T06:26:38.994098+09:00"
     },
     "https://www.amazon.co.jp/dp/B0BT15FD3J": {
       "name": "強化拡張パック ポケモンカード151 BOX【再販監視】",
@@ -110,7 +110,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:36.049692+09:00"
+      "last_checked": "2026-04-26T06:26:49.076474+09:00"
     },
     "https://www.amazon.co.jp/dp/B0CW1GY7WK": {
       "name": "ワンピースカード ブースターパック 双璧の覇者 BOX（OP-06）",
@@ -118,7 +118,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:37.638006+09:00"
+      "last_checked": "2026-04-26T06:26:50.786392+09:00"
     },
     "https://www.amazon.co.jp/dp/B0D3J2GRKB": {
       "name": "ワンピースカード ブースターパック 500年後の未来 BOX（OP-07）",
@@ -126,7 +126,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:39.203223+09:00"
+      "last_checked": "2026-04-26T06:26:52.363254+09:00"
     },
     "https://www.amazon.co.jp/dp/B0DHXNQV8L": {
       "name": "ワンピースカード ブースターパック 二つの伝説 BOX（OP-08）",
@@ -134,7 +134,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:40.768579+09:00"
+      "last_checked": "2026-04-26T06:26:53.957771+09:00"
     },
     "https://www.amazon.co.jp/dp/B0DQZMYZLJ": {
       "name": "ワンピースカード ブースターパック 新世界の皇帝たち BOX（OP-09）",
@@ -142,7 +142,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:42.336690+09:00"
+      "last_checked": "2026-04-26T06:26:55.535669+09:00"
     },
     "https://www.amazon.co.jp/dp/B0D5Y3DNHQ": {
       "name": "強化拡張パック ナイトワンダラー BOX",
@@ -150,7 +150,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:54:43.906289+09:00"
+      "last_checked": "2026-04-26T06:26:57.110963+09:00"
     },
     "https://www.amazon.co.jp/dp/B0DTYYKH3N": {
       "name": "デッキビルドBOX バトルパートナーズ",
@@ -158,7 +158,7 @@
       "retailer": "amazon.co.jp",
       "status": "unknown",
       "price": null,
-      "last_checked": "2026-04-26T05:55:07.045217+09:00"
+      "last_checked": "2026-04-26T06:27:20.366744+09:00"
     },
     "https://www.pokemoncenter-online.com/4521329431758.html": {
       "name": "ポケモンカードゲーム ハイクラスロングカードボックス ロケット団3,520円",
@@ -169,5 +169,5 @@
       "last_checked": "2026-04-23T16:18:03.822047+09:00"
     }
   },
-  "last_updated": "2026-04-26T05:56:27.962720+09:00"
+  "last_updated": "2026-04-26T06:28:41.879371+09:00"
 }
