@@ -1,4 +1,4 @@
-generated_at: '2026-04-27T07:42:11.969554+09:00'
+generated_at: '2026-04-28T07:56:13.434253+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,6 +400,70 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
+- url: https://p-bandai.jp/item/item-1000250237/
+  name: 『仮面ライダーゼッツ』カタストロムのS.H.Figuartsが2次受注！マッシブな上半身とスマートな下半身の造形を忠実に再現！
+  list_price: 9900
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249582/
+  name: 「ONE PIECE×NBA」コラボフィギュアにユニフォーム姿のギア5ルフィとエネルが登場！ダンクシュートを決めるルフィのNBA HOUSE ver.フィギュアなども！プレバンで予約受付中！
+  list_price: 16500
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249700/
+  name: てんつく工芸による「ゴジラ（2001）」のアートソフビモデルが「GODZILLA VINYL ART」に登場！プレバンで4月28日（火）12時より予約受付開始!!
+  list_price: 38500
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000250256/
+  name: 『To LOVEる-とらぶる-』バンダイのカードゲーム「UNION ARENA」の9ポケットバインダーセットが2次受注！矢吹健太朗先生のイラストに箔押しを施した豪華仕様！
+  list_price: 6600
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000248387/
+  name: CODEエージェントたちのボイスや全種新録のライダーカプセム解説音声を収録！『仮面ライダーゼッツ』より、「DXコードフォン＆サウンドパニッシュカプセムセット」がプレミアムバンダイに登場！
+  list_price: 6380
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000250253/
+  name: 『機動戦士ガンダム 閃光のハサウェイ』メッサーF02型のHGガンプラ3種が一挙再販！プレミアムバンダイにて4月27日（月）予約開始！
+  list_price: 3740
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249527/
+  name: ライトアップ機能で「BT21」が輝く！スティックライト型チャームがバンダイの食玩に登場！10個入りBOXが4月27日（月）13時よりプレバンにて予約受付開始!!
+  list_price: 4730
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000250254/
+  name: 『機動戦士ガンダムUC』HG ベースジャバー（ユニコーンジオン軍残党カラーVer.）が再販！プレミアムバンダイにて4月27日（月）予約開始！
+  list_price: 1430
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
 - url: https://p-bandai.jp/item/item-1000249931/
   name: 『ナンバーワン戦隊ゴジュウジャー』メモリアル仕様の「テガソード」の3次生産分がプレミアムバンダイに登場！4月28日（火）16時予約開始！
   list_price: 22000
@@ -440,70 +504,30 @@ items:
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249953/
-  name: 『機動戦士ガンダム』『閃光のハサウェイ キルケーの魔女』と「NEW ERA(R)」のコラボキャップが「STRICT-G」に登場！マフティー、シャア・アズナブル、ジオン公国軍の3種！
-  list_price: 6600
-  category_id: figure
+- url: https://www.pokemoncenter-online.com/4521121700021.html
+  name: Decorative Frame Collection2 ～枠を超えて、広がる世界～フィギュア・プラモデル
+  list_price: 1430
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249373/
-  name: 『機動戦士ガンダム 閃光のハサウェイ キルケーの魔女』よりハサウェイとギギをモチーフにしたリングと作品イメージのネックレスが「THE KISS」とのコラボで「STRICT-G」に登場！
-  list_price: 16500
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/9900000008406.html
+  name: Decorative Frame Collection2 ～枠を超えて、広がる世界～ BOXフィギュア・プラモデル
+  list_price: 8580
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000250143/
-  name: ピコピコ怪獣軍団、来襲！怪獣芸術家・ピコピコ氏による「ゴジラ（1964）＆モスラ幼虫」と「ヘドラ」のソフビフィギュアがプレバンにて予約受付開始！
-  list_price: 11000
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4570118193056.html
+  name: びっくらたまご　バスポッピング　～きらめく葉っぱのワルツ～バス・トイレタリー
+  list_price: 715
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249628/
-  name: 『機動戦士ガンダムUC』に登場したドム・トローペン、ジムIII、ドラッツェのガンプラ「HG」が再販！プレミアムバンダイにて4月23日（木）予約開始！
-  list_price: 2310
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000248666/
-  name: 『ONE PIECE』マリンフォード頂上決戦仕様となったポートガス・D・エースのS.H.Figuartsが登場！手錠での拘束シーンや火拳が再現可能なオプションが付属！豊富な表情パーツであの名シーンも……！
-  list_price: 9900
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000239577/
-  name: 『仮面ライダーゼッツ』×KANGOL SPORT！「ゼッツドライバー」をイメージしたスタイリッシュなスリングバッグがプレバンにて販売中！
-  list_price: 10780
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249554/
-  name: ソフビアーティスト・Frog Treeによって創造された赤き幽鬼！「UKVA レッドキング赤鬼」がプレバンにて抽選販売!!
-  list_price: 40000
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249829/
-  name: トールギス、ウイングガンダム、シェンロンガンダム、ガンダムデスサイズなど7種のデザイン！『新機動戦記ガンダムW』のTシャツ、バスタオル、アクリルチャームの2026年5月発送分がプレバンで予約受付中!!
-  list_price: 3850
-  category_id: figure
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
 - url: https://www.pokemoncenter-online.com/4904790177279.html
   name: キミにきめた！ポケモンゲットぬいぐるみ　オオタチぬいぐるみ・マスコット
   list_price: 3289
@@ -554,30 +578,6 @@ items:
   source: auto_pokemon_center
 - url: https://www.pokemoncenter-online.com/4904790177378.html
   name: ポケピース／ぬいぐるみマスコット（Mellow Heart）／ニャスパーぬいぐるみ・マスコット
-  list_price: 2860
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790177330.html
-  name: ポケピース／ぬいぐるみマスコット（Mellow Heart）／ピカチュウぬいぐるみ・マスコット
-  list_price: 2860
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790177361.html
-  name: ポケピース／ぬいぐるみマスコット（Mellow Heart）／ヒバニーぬいぐるみ・マスコット
-  list_price: 2860
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790177347.html
-  name: ポケピース／ぬいぐるみマスコット（Mellow Heart）／ポッチャマぬいぐるみ・マスコット
   list_price: 2860
   category_id: trading_card
   sale_start: ''
