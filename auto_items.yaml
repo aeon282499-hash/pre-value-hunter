@@ -1,4 +1,4 @@
-generated_at: '2026-04-28T07:56:13.434253+09:00'
+generated_at: '2026-04-29T07:59:20.814196+09:00'
 items:
 - url: https://1kuji.com/products/medalist
   name: 一番くじ TVアニメ「メダリスト」
@@ -400,6 +400,30 @@ items:
   deadline: '2026-06-30'
   note: '[自動取得] 2026年06月30日(火)より順次発売予定'
   source: auto_ichiban_kuji
+- url: https://p-bandai.jp/item/item-1000249940
+  name: 映画『ゴジラVSメカゴジラ』のゴジラ（1993）がソフビフィギュア「ムービーモンスターシリーズ」に登場！スーツの造形やプロポーションを一部新規造形！
+  list_price: 4400
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000248744/
+  name: 集めて飾って楽しめる！『トイ・ストーリー5』かわいいコレクション缶「プチキャン」が登場！10個入りBOXがプレミアムバンダイで予約受付中！
+  list_price: 2750
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
+- url: https://p-bandai.jp/item/item-1000249652/
+  name: 『魔法の姉妹ルルットリリィ』風と流が使用するリップが本格コスメになって登場！パッケージには限定かきおこしイラストを使用！
+  list_price: 4950
+  category_id: figure
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] 電撃ホビー経由'
+  source: auto_pbandai_news
 - url: https://p-bandai.jp/item/item-1000250237/
   name: 『仮面ライダーゼッツ』カタストロムのS.H.Figuartsが2次受注！マッシブな上半身とスマートな下半身の造形を忠実に再現！
   list_price: 9900
@@ -480,30 +504,62 @@ items:
   deadline: ''
   note: '[自動取得] 電撃ホビー経由'
   source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249948/
-  name: 『新機動戦記ガンダムW』の世界観をフロントにデザイン！再生ポリエステル素材を使用したアクティブドライTシャツが白、黒の2色展開で「STRICT-G」登場！
-  list_price: 5500
-  category_id: figure
+- url: https://www.pokemoncenter-online.com/4521329437453.html
+  name: A4クリアファイル Pokémon Timeless Adventure ホウエンファイル・ホルダー
+  list_price: 495
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000249575/
-  name: 『機動戦士ガンダム 閃光のハサウェイ キルケーの魔女』のガンプラ「HG メッサーM01型（ガウマン機）」がプレミアムバンダイにて抽選販売決定！
-  list_price: 3740
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437859.html
+  name: アクリルキーホルダー Pokémon Timeless Adventure ホウエンキーホルダー・バッジ・ピンズ
+  list_price: 935
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
-- url: https://p-bandai.jp/item/item-1000247158/
-  name: 『仮面ライダーアギト』津上翔一がS.H.Figuartsでフィギュア化！賀集利樹氏をスキャンし、顔の骨格やプロポーションなどを細部までこだわって再現！
-  list_price: 11000
-  category_id: figure
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437767.html
+  name: アクリルブロック Pokémon Timeless Adventure ホウエンファッション雑貨
+  list_price: 2860
+  category_id: trading_card
   sale_start: ''
   deadline: ''
-  note: '[自動取得] 電撃ホビー経由'
-  source: auto_pbandai_news
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329436081.html
+  name: スクエアプレート Pokémon Timeless Adventure皿・お椀
+  list_price: 2860
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329436906.html
+  name: ステッカーセット Pokémon Timeless Adventure ホウエンシール・スタンプ
+  list_price: 770
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329436098.html
+  name: ステンレスペットボトルホルダー Pokémon Timeless Adventureお弁当箱・水筒
+  list_price: 2640
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
+- url: https://www.pokemoncenter-online.com/4521329437941.html
+  name: ロールクッキー Pokémon Timeless Adventure ホウエンお菓子
+  list_price: 1760
+  category_id: trading_card
+  sale_start: ''
+  deadline: ''
+  note: '[自動取得] ポケモンセンター'
+  source: auto_pokemon_center
 - url: https://www.pokemoncenter-online.com/4521121700021.html
   name: Decorative Frame Collection2 ～枠を超えて、広がる世界～フィギュア・プラモデル
   list_price: 1430
@@ -523,62 +579,6 @@ items:
 - url: https://www.pokemoncenter-online.com/4570118193056.html
   name: びっくらたまご　バスポッピング　～きらめく葉っぱのワルツ～バス・トイレタリー
   list_price: 715
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790177279.html
-  name: キミにきめた！ポケモンゲットぬいぐるみ　オオタチぬいぐるみ・マスコット
-  list_price: 3289
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790176203.html
-  name: キミにきめた！ポケモンゲットぬいぐるみ　サーフゴーぬいぐるみ・マスコット
-  list_price: 3839
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4972825234709.html
-  name: ナノブロック　カイリキーホビーおもちゃ
-  list_price: 1650
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4972825234693.html
-  name: ナノブロック　プリンホビーおもちゃ
-  list_price: 1650
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904810079293.html
-  name: ぴょこぴょこメタモンぬいぐるみ・マスコット
-  list_price: 5280
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790152559.html
-  name: ポケピース／ぬいぐるみチェーン付マスコット（カラフルVer.）／ピチューぬいぐるみ・マスコット
-  list_price: 2640
-  category_id: trading_card
-  sale_start: ''
-  deadline: ''
-  note: '[自動取得] ポケモンセンター'
-  source: auto_pokemon_center
-- url: https://www.pokemoncenter-online.com/4904790177378.html
-  name: ポケピース／ぬいぐるみマスコット（Mellow Heart）／ニャスパーぬいぐるみ・マスコット
-  list_price: 2860
   category_id: trading_card
   sale_start: ''
   deadline: ''
