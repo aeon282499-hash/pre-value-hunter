@@ -1,0 +1,42 @@
+name: Pokemon Lottery Watch
+
+on:
+  schedule:
+    # 毎日 JST 8:00 (UTC 23:00) に1回
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run lottery watcher
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RAKUTEN_APP_ID:      ${{ secrets.RAKUTEN_APP_ID }}
+          RAKUTEN_ACCESS_KEY:  ${{ secrets.RAKUTEN_ACCESS_KEY }}
+        run: python lottery_watcher.py
+
+      - name: Commit state
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/lottery_state.json
+          git diff --cached --quiet || git commit -m "update lottery state"
+          git stash --include-untracked || true
+          git pull --rebase || true
+          git stash pop || true
+          git push || true
